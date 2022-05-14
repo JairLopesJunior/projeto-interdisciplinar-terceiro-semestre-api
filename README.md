@@ -17,11 +17,10 @@ A Definir...
 
 ## Tecnologias Utilizadas:
 ### BackEnd:
-- ### <a href="https://nestjs.com/"> NestJS </a>
-- ### <a href="https://typeorm.io/"> TypeORM </a>
+- ### <a href="https://spring.io/projects/spring-boot"> Spring Boot </a>
 
 ### DataBase:
-- ### <a href="https://www.postgresql.org/"> PostgreSQL </a>
+- ### <a href="https://www.mysql.com/"> MySQL </a>
 
 ## Acesso Rápido:
 - ### <a href="https://www.figma.com/proto/7n488wJsFhbXR79ue0zAke/Projeto-Interdisciplinar?node-id=0%3A1&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=45%3A2"> Protótipo </a>
