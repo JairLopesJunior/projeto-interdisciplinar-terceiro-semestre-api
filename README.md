@@ -1,6 +1,6 @@
 ## <div align="center"> Curso DSM - Projeto Interdisciplinar - 3º Semestre </div>
 
-### <div align="center"> Nome do Projeto: </div>
+### <div align="center"> Tema do Projeto: </div>
 > ### <div align="center"> API Super-Herói </div>
 
 ### <div align="center"> Responsáveis: </div>
