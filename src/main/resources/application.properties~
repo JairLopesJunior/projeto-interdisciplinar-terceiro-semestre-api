@@ -2,4 +2,4 @@ spring.cloud.config.import-check.enabled=false
 spring.profiles.active=dev
 
 spring.security.user.name=jair
-spring.security.user.password=123456
+spring.security.user.password=123
