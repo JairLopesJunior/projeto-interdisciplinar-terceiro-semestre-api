@@ -27,7 +27,7 @@ public class UsuarioController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Usuario save(@RequestBody @Valid UsuarioDTO usuarioDTO) {
-        validPassword(usuarioDTO.getPassword(), usuarioDTO.getRepeatPassword());
+        this.validPassword(usuarioDTO.getPassword(), usuarioDTO.getRepeatPassword());
         String encryptedPassword = passwordEncoder.encode(usuarioDTO.getPassword());
         usuarioDTO.setPassword(encryptedPassword);
         return usuarioService.save(usuarioDTO);
@@ -35,7 +35,7 @@ public class UsuarioController {
 
     private void validPassword(String password, String repeatPassword) {
         if(!password.equals(repeatPassword)) {
-            throw new IllegalArgumentException("As senha estão divergentes.");
+            throw new IllegalArgumentException("As senhas estão divergentes.");
         }
     }
 }
