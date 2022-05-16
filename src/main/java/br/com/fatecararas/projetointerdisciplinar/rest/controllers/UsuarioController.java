@@ -33,6 +33,12 @@ public class UsuarioController {
         return usuarioService.save(usuarioDTO);
     }
 
+    @PostMapping("/login/{email}/{password}")
+    @ResponseStatus(HttpStatus.OK)
+    public void login(@PathVariable String email, @PathVariable String password) {
+        usuarioService.login(email, password);
+    }
+
     private void validPassword(String password, String repeatPassword) {
         if(!password.equals(repeatPassword)) {
             throw new IllegalArgumentException("As senhas estão divergentes.");

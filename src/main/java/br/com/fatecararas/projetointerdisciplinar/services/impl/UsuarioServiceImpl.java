@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,9 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsuarioServiceImpl implements UserDetailsService {
 
     private UsuarioRepository usuarioRepository;
+    private PasswordEncoder passwordEncoder;
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
+    @Autowired
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -27,6 +31,13 @@ public class UsuarioServiceImpl implements UserDetailsService {
         usuario.setEmail(usuarioDTO.getEmail());
         usuario.setPassword(usuarioDTO.getPassword());
         return usuarioRepository.save(usuario);
+    }
+
+    public void login(String email, String password) {
+        Usuario foundUser = usuarioRepository.findByEmail(email)
+                        .orElseThrow(() -> new IllegalArgumentException("E-mail incorreto."));
+        String userPasswordFound = foundUser.getPassword();
+        validPassword(userPasswordFound, password);
     }
 
     @Override
@@ -40,6 +51,12 @@ public class UsuarioServiceImpl implements UserDetailsService {
                 .password(foundUser.getPassword())
                 .roles("ADMIN")
                 .build();
+    }
+
+    private void validPassword(String userPasswordFound, String password) {
+        if(!passwordEncoder.matches(password, userPasswordFound)) {
+            throw new IllegalArgumentException("Password incorreto.");
+        }
     }
 }
 
