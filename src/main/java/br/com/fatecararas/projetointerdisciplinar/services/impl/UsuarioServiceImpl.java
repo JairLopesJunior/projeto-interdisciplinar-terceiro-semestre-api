@@ -1,5 +1,6 @@
 package br.com.fatecararas.projetointerdisciplinar.services.impl;
 
+import br.com.fatecararas.projetointerdisciplinar.config.PasswordEncoderConfig;
 import br.com.fatecararas.projetointerdisciplinar.domain.entities.Usuario;
 import br.com.fatecararas.projetointerdisciplinar.dtos.UsuarioDTO;
 import br.com.fatecararas.projetointerdisciplinar.repositories.UsuarioRepository;
@@ -8,7 +9,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsuarioServiceImpl implements UserDetailsService {
 
     private UsuarioRepository usuarioRepository;
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoderConfig passwordEncoderConfig;
 
     @Autowired
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoderConfig passwordEncoderConfig) {
         this.usuarioRepository = usuarioRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.passwordEncoderConfig = passwordEncoderConfig;
     }
 
     @Transactional
@@ -54,7 +54,7 @@ public class UsuarioServiceImpl implements UserDetailsService {
     }
 
     private void validPassword(String userPasswordFound, String password) {
-        if(!passwordEncoder.matches(password, userPasswordFound)) {
+        if(!passwordEncoderConfig.passwordEncoder().matches(password, userPasswordFound)) {
             throw new IllegalArgumentException("Password incorreto.");
         }
     }
