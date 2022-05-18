@@ -3,7 +3,6 @@ package br.com.fatecararas.projetointerdisciplinar.rest.controllers;
 import br.com.fatecararas.projetointerdisciplinar.domain.entities.Usuario;
 import br.com.fatecararas.projetointerdisciplinar.dtos.UsuarioDTO;
 import br.com.fatecararas.projetointerdisciplinar.services.impl.UsuarioServiceImpl;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
 
