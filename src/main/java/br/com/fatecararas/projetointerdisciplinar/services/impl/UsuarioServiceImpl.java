@@ -33,11 +33,13 @@ public class UsuarioServiceImpl implements UserDetailsService {
         return usuarioRepository.save(usuario);
     }
 
-    public void login(String email, String password) {
+    public Integer login(String email, String password) {
         Usuario foundUser = usuarioRepository.findByEmail(email)
                         .orElseThrow(() -> new IllegalArgumentException("E-mail incorreto."));
         String userPasswordFound = foundUser.getPassword();
+        Integer userId = foundUser.getId();
         validPassword(userPasswordFound, password);
+        return userId;
     }
 
     @Override

@@ -36,10 +36,10 @@ public class UsuarioController {
 
     @PostMapping(value = "/login")
     @ResponseStatus(HttpStatus.OK)
-    public void login(@RequestBody @Valid LoginDTO loginDTO) {
+    public Integer login(@RequestBody @Valid LoginDTO loginDTO) {
         String email = loginDTO.getEmail();
         String password = loginDTO.getPassword();
-        usuarioService.login(email, password);
+        return usuarioService.login(email, password);
     }
 
     private void validPassword(String password, String repeatPassword) {
