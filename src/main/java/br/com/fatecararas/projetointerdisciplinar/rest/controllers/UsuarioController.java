@@ -3,6 +3,7 @@ package br.com.fatecararas.projetointerdisciplinar.rest.controllers;
 import br.com.fatecararas.projetointerdisciplinar.domain.entities.Usuario;
 import br.com.fatecararas.projetointerdisciplinar.dtos.LoginDTO;
 import br.com.fatecararas.projetointerdisciplinar.dtos.UsuarioDTO;
+import br.com.fatecararas.projetointerdisciplinar.response.LoginResponse;
 import br.com.fatecararas.projetointerdisciplinar.services.impl.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class UsuarioController {
 
     @PostMapping(value = "/login")
     @ResponseStatus(HttpStatus.OK)
-    public Integer login(@RequestBody @Valid LoginDTO loginDTO) {
+    public LoginResponse login(@RequestBody @Valid LoginDTO loginDTO) {
         String email = loginDTO.getEmail();
         String password = loginDTO.getPassword();
         return usuarioService.login(email, password);

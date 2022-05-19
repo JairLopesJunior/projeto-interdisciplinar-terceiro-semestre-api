@@ -4,6 +4,7 @@ import br.com.fatecararas.projetointerdisciplinar.config.PasswordEncoderConfig;
 import br.com.fatecararas.projetointerdisciplinar.domain.entities.Usuario;
 import br.com.fatecararas.projetointerdisciplinar.dtos.UsuarioDTO;
 import br.com.fatecararas.projetointerdisciplinar.repositories.UsuarioRepository;
+import br.com.fatecararas.projetointerdisciplinar.response.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,13 +34,15 @@ public class UsuarioServiceImpl implements UserDetailsService {
         return usuarioRepository.save(usuario);
     }
 
-    public Integer login(String email, String password) {
+    public LoginResponse login(String email, String password) {
         Usuario foundUser = usuarioRepository.findByEmail(email)
                         .orElseThrow(() -> new IllegalArgumentException("E-mail incorreto."));
         String userPasswordFound = foundUser.getPassword();
         Integer userId = foundUser.getId();
         validPassword(userPasswordFound, password);
-        return userId;
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setId(userId);
+        return loginResponse;
     }
 
     @Override
