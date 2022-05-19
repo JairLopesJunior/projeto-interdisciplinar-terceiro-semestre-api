@@ -5,6 +5,7 @@ import br.com.fatecararas.projetointerdisciplinar.dtos.UsuarioDTO;
 import br.com.fatecararas.projetointerdisciplinar.services.impl.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class UsuarioController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Usuario save(@RequestBody @Valid UsuarioDTO usuarioDTO) {
         this.validPassword(usuarioDTO.getPassword(), usuarioDTO.getRepeatPassword());
@@ -33,7 +34,7 @@ public class UsuarioController {
         return usuarioService.save(usuarioDTO);
     }
 
-    @PostMapping("/login/{email}/{password}")
+    @PostMapping(value = "/login/{email}/{password}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void login(@PathVariable String email, @PathVariable String password) {
         usuarioService.login(email, password);
