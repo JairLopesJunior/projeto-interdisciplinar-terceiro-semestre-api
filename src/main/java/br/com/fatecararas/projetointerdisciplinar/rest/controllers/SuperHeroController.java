@@ -3,10 +3,7 @@ package br.com.fatecararas.projetointerdisciplinar.rest.controllers;
 import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHero;
 import br.com.fatecararas.projetointerdisciplinar.services.SuperHeroService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +22,10 @@ public class SuperHeroController {
     @GetMapping
     public List<SuperHero> getAll() {
         return this.superHeroService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public SuperHero getAll(@PathVariable Long id) {
+        return this.superHeroService.getById(id);
     }
 }
