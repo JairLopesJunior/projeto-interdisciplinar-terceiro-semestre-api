@@ -3,7 +3,7 @@ package br.com.fatecararas.projetointerdisciplinar.domain.entities;
 import lombok.Data;
 
 @Data
-public class PowerStats {
+public class Powerstats {
 
     private Integer intelligence;
     private Integer strength;

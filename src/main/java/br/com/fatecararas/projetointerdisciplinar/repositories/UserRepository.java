@@ -1,17 +1,17 @@
 package br.com.fatecararas.projetointerdisciplinar.repositories;
 
-import br.com.fatecararas.projetointerdisciplinar.domain.entities.Usuario;
+import br.com.fatecararas.projetointerdisciplinar.domain.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
-    Optional<Usuario> findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
-    Optional<Usuario> findByPassword(String password);
+    Optional<User> findByPassword(String password);
 
     Boolean existsByEmail(String email);
 }

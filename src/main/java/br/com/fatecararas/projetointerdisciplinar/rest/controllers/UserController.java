@@ -1,10 +1,10 @@
 package br.com.fatecararas.projetointerdisciplinar.rest.controllers;
 
-import br.com.fatecararas.projetointerdisciplinar.domain.entities.Usuario;
+import br.com.fatecararas.projetointerdisciplinar.domain.entities.User;
 import br.com.fatecararas.projetointerdisciplinar.dtos.LoginDTO;
-import br.com.fatecararas.projetointerdisciplinar.dtos.UsuarioDTO;
+import br.com.fatecararas.projetointerdisciplinar.dtos.UserDTO;
 import br.com.fatecararas.projetointerdisciplinar.response.LoginResponse;
-import br.com.fatecararas.projetointerdisciplinar.services.impl.UsuarioServiceImpl;
+import br.com.fatecararas.projetointerdisciplinar.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,21 +14,21 @@ import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/usuarios")
-public class UsuarioController {
+@RequestMapping("/api/users")
+public class UserController {
 
-    private UsuarioServiceImpl usuarioService;
+    private UserServiceImpl usuarioService;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UsuarioController(UsuarioServiceImpl usuarioService, PasswordEncoder passwordEncoder) {
+    public UserController(UserServiceImpl usuarioService, PasswordEncoder passwordEncoder) {
         this.usuarioService = usuarioService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Usuario save(@RequestBody @Valid UsuarioDTO usuarioDTO) {
+    public User save(@RequestBody @Valid UserDTO usuarioDTO) {
         this.validPassword(usuarioDTO.getPassword(), usuarioDTO.getRepeatPassword());
         String encryptedPassword = passwordEncoder.encode(usuarioDTO.getPassword());
         usuarioDTO.setPassword(encryptedPassword);

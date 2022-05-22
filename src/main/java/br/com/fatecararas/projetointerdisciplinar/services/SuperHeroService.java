@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SuperHeroService {
@@ -27,16 +26,16 @@ public class SuperHeroService {
     }
 
     public SuperHero getById(Long id) {
-        var superHeroes = allSuperHeroes.isEmpty() ? this.getAll() : this.allSuperHeroes;
-        var superHeroFound = this.getSuperHeroById(superHeroes, id)
-                .orElseThrow(() -> new NotFoundException("SuperHero not found."));
+        var superHeroes = this.allSuperHeroes.isEmpty() ? this.getAll() : this.allSuperHeroes;
+        var superHeroFound = this.getSuperHeroById(superHeroes, id);
         return superHeroFound;
     }
 
-    private Optional<SuperHero> getSuperHeroById(List<SuperHero> superHeroes, Long id) {
+    private SuperHero getSuperHeroById(List<SuperHero> superHeroes, Long id) {
         return superHeroes
                 .stream()
                 .filter(hero -> hero.getId().equals(id))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("SuperHero not found."));
     }
 }

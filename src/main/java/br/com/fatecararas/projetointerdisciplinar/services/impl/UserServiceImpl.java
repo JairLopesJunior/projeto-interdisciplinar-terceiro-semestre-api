@@ -1,33 +1,33 @@
 package br.com.fatecararas.projetointerdisciplinar.services.impl;
 
 import br.com.fatecararas.projetointerdisciplinar.config.PasswordEncoderConfig;
-import br.com.fatecararas.projetointerdisciplinar.domain.entities.Usuario;
-import br.com.fatecararas.projetointerdisciplinar.dtos.UsuarioDTO;
-import br.com.fatecararas.projetointerdisciplinar.repositories.UsuarioRepository;
+import br.com.fatecararas.projetointerdisciplinar.domain.entities.User;
+import br.com.fatecararas.projetointerdisciplinar.dtos.UserDTO;
+import br.com.fatecararas.projetointerdisciplinar.repositories.UserRepository;
 import br.com.fatecararas.projetointerdisciplinar.response.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly = true)
 @Service
-public class UsuarioServiceImpl implements UserDetailsService {
+public class UserServiceImpl implements UserDetailsService {
 
-    private UsuarioRepository usuarioRepository;
+    private UserRepository usuarioRepository;
     private PasswordEncoderConfig passwordEncoderConfig;
 
     @Autowired
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoderConfig passwordEncoderConfig) {
+    public UserServiceImpl(UserRepository usuarioRepository, PasswordEncoderConfig passwordEncoderConfig) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoderConfig = passwordEncoderConfig;
     }
 
     @Transactional
-    public Usuario save(UsuarioDTO usuarioDTO) {
-        Usuario usuario = new Usuario();
+    public User save(UserDTO usuarioDTO) {
+        User usuario = new User();
         usuario.setName(usuarioDTO.getName());
         usuario.setEmail(usuarioDTO.getEmail());
         usuario.setPassword(usuarioDTO.getPassword());
@@ -35,7 +35,7 @@ public class UsuarioServiceImpl implements UserDetailsService {
     }
 
     public LoginResponse login(String email, String password) {
-        Usuario foundUser = usuarioRepository.findByEmail(email)
+        User foundUser = usuarioRepository.findByEmail(email)
                         .orElseThrow(() -> new IllegalArgumentException("E-mail incorreto."));
         String userPasswordFound = foundUser.getPassword();
         Integer userId = foundUser.getId();
@@ -50,7 +50,7 @@ public class UsuarioServiceImpl implements UserDetailsService {
         var foundUser = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado na base de dados."));
 
-        return User
+        return org.springframework.security.core.userdetails.User
                 .builder()
                 .username(foundUser.getEmail())
                 .password(foundUser.getPassword())

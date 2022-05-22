@@ -1,6 +1,6 @@
 package br.com.fatecararas.projetointerdisciplinar.config;
 
-import br.com.fatecararas.projetointerdisciplinar.services.impl.UsuarioServiceImpl;
+import br.com.fatecararas.projetointerdisciplinar.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UsuarioServiceImpl usuarioService;
+    private UserServiceImpl usuarioService;
 
     @Autowired
     private PasswordEncoderConfig passwordEncoderConfig;
@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/api/superherois", "/api/usuarios")
+                    .antMatchers("/api/superheroes", "/api/users")
                         .permitAll()
                 .and()
                 .httpBasic();

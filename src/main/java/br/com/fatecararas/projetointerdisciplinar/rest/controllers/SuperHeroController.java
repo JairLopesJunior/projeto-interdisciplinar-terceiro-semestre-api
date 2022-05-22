@@ -9,7 +9,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/superherois")
+@RequestMapping("/api/superheroes")
 public class SuperHeroController {
 
     private SuperHeroService superHeroService;
@@ -25,7 +25,7 @@ public class SuperHeroController {
     }
 
     @GetMapping("/{id}")
-    public SuperHero getAll(@PathVariable Long id) {
+    public SuperHero getById(@PathVariable Long id) {
         return this.superHeroService.getById(id);
     }
 }
