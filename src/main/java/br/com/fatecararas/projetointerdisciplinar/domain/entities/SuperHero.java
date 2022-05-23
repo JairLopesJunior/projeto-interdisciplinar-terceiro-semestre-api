@@ -7,7 +7,6 @@ public class SuperHero {
 
     private Long id;
     private String name;
-    private String slug;
     private Powerstats powerstats;
     private Appearance appearance;
     private Biography biography;
