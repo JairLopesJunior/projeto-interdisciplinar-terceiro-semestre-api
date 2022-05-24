@@ -1,6 +1,6 @@
 package br.com.fatecararas.projetointerdisciplinar.services;
 
-import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHero;
+import br.com.fatecararas.projetointerdisciplinar.dtos.SuperHeroDTO;
 import br.com.fatecararas.projetointerdisciplinar.exception.NotFoundException;
 import br.com.fatecararas.projetointerdisciplinar.feign.SuperHeroFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,26 +12,26 @@ import java.util.List;
 public class SuperHeroService {
 
     private SuperHeroFeignClient feign;
-    private List<SuperHero> allSuperHeroes;
+    private List<SuperHeroDTO> allSuperHeroes;
 
     @Autowired
     public SuperHeroService(SuperHeroFeignClient feign) {
         this.feign = feign;
     }
 
-    public List<SuperHero> getAll() {
-        List<SuperHero> superHeroes = this.feign.getAll();
+    public List<SuperHeroDTO> getAll() {
+        List<SuperHeroDTO> superHeroes = this.feign.getAll();
         this.allSuperHeroes = superHeroes;
         return superHeroes;
     }
 
-    public SuperHero getById(Long id) {
+    public SuperHeroDTO getById(Long id) {
         var superHeroes = this.allSuperHeroes.isEmpty() ? this.getAll() : this.allSuperHeroes;
         var superHeroFound = this.getSuperHeroById(superHeroes, id);
         return superHeroFound;
     }
 
-    private SuperHero getSuperHeroById(List<SuperHero> superHeroes, Long id) {
+    private SuperHeroDTO getSuperHeroById(List<SuperHeroDTO> superHeroes, Long id) {
         return superHeroes
                 .stream()
                 .filter(hero -> hero.getId().equals(id))

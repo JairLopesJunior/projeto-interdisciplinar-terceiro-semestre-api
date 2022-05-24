@@ -1,6 +1,6 @@
 package br.com.fatecararas.projetointerdisciplinar.rest.controllers;
 
-import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHero;
+import br.com.fatecararas.projetointerdisciplinar.dtos.SuperHeroDTO;
 import br.com.fatecararas.projetointerdisciplinar.services.SuperHeroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +20,12 @@ public class SuperHeroController {
     }
 
     @GetMapping
-    public List<SuperHero> getAll() {
+    public List<SuperHeroDTO> getAll() {
         return this.superHeroService.getAll();
     }
 
     @GetMapping("/{id}")
-    public SuperHero getById(@PathVariable Long id) {
+    public SuperHeroDTO getById(@PathVariable Long id) {
         return this.superHeroService.getById(id);
     }
 }

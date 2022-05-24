@@ -1,9 +1,12 @@
 package br.com.fatecararas.projetointerdisciplinar.services.impl;
 
-import br.com.fatecararas.projetointerdisciplinar.domain.entities.Appearance;
-import br.com.fatecararas.projetointerdisciplinar.domain.entities.Powerstats;
 import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHero;
+import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHeroCustom;
+import br.com.fatecararas.projetointerdisciplinar.dtos.AppearanceDTO;
+import br.com.fatecararas.projetointerdisciplinar.dtos.PowerstatsDTO;
+import br.com.fatecararas.projetointerdisciplinar.dtos.SuperHeroDTO;
 import br.com.fatecararas.projetointerdisciplinar.dtos.SuperHeroPersonalizadoDTO;
+import br.com.fatecararas.projetointerdisciplinar.repositories.SuperHeroPersonalizadoRepository;
 import br.com.fatecararas.projetointerdisciplinar.services.SuperHeroPersonalizadoService;
 import br.com.fatecararas.projetointerdisciplinar.services.SuperHeroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,54 +14,79 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static br.com.fatecararas.projetointerdisciplinar.domain.entities.Appearance.*;
-import static br.com.fatecararas.projetointerdisciplinar.domain.entities.Powerstats.*;
+import static br.com.fatecararas.projetointerdisciplinar.dtos.AppearanceDTO.*;
+import static br.com.fatecararas.projetointerdisciplinar.dtos.PowerstatsDTO.*;
 
 @Transactional(readOnly = true)
 @Service
 public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizadoService {
 
-//    private final SuperHeroPersonalizadoRepository repository;
+    private SuperHeroPersonalizadoRepository repository;
     private SuperHeroService superHeroService;
 
     @Autowired
-    public SuperHeroPersonalizadoServiceImpl(SuperHeroService superHeroService) {
+    public SuperHeroPersonalizadoServiceImpl(SuperHeroService superHeroService, SuperHeroPersonalizadoRepository repository) {
         this.superHeroService = superHeroService;
+        this.repository = repository;
     }
 
     @Transactional
     public void save(SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO) {
         Long firstHeroId = superHeroPersonalizadoDTO.getFirstHeroId();
         Long secondHeroId = superHeroPersonalizadoDTO.getSecondHeroId();
+        String fullName = superHeroPersonalizadoDTO.getFullName();
+        String nickName = superHeroPersonalizadoDTO.getNickName();
         String eyeColor = superHeroPersonalizadoDTO.getEyeColor();
         String hairColor = superHeroPersonalizadoDTO.getHairColor();
+        String profession = superHeroPersonalizadoDTO.getProfession();
+        String firstApparition = superHeroPersonalizadoDTO.getFirstApparition();
+        String publishedBy = superHeroPersonalizadoDTO.getPublishedBy();
+        String image = superHeroPersonalizadoDTO.getImage();
 
-        List<SuperHero> heroes = getSuperHeroesCustom(firstHeroId, secondHeroId);
-        Powerstats powerstats = this.getPowerstats(heroes);
-        Appearance appearance = this.getAppearance(heroes, eyeColor, hairColor);
+        List<SuperHeroDTO> heroes = getSuperHeroesCustom(firstHeroId, secondHeroId);
+        PowerstatsDTO powerstats = this.getPowerstats(heroes);
+        List<Double> appearancies = this.getAppearance(heroes);
 
 
         SuperHero newSuperHero = new SuperHero();
-        String fullName = superHeroPersonalizadoDTO.getFullName();
-        newSuperHero.setName(fullName);
-        newSuperHero.setPowerstats(powerstats);
+        newSuperHero.setFullName(fullName);
+        newSuperHero.setNickName(nickName);
+        newSuperHero.setEyeColor(eyeColor);
+        newSuperHero.setHairColor(hairColor);
+        newSuperHero.setProfession(profession);
+        newSuperHero.setFirstApparition(firstApparition);
+        newSuperHero.setPublishedBy(publishedBy);
+        newSuperHero.setImage(image);
+        newSuperHero.setFirstHeroId(firstHeroId);
+        newSuperHero.setSecondHeroId(secondHeroId);
+        newSuperHero.setIntelligence(powerstats.getIntelligence());
+        newSuperHero.setStrength(powerstats.getStrength());
+        newSuperHero.setSpeed(powerstats.getSpeed());
+        newSuperHero.setDurability(powerstats.getDurability());
+        newSuperHero.setPower(powerstats.getPower());
+        newSuperHero.setCombat(powerstats.getCombat());
+        newSuperHero.setHeight(appearancies.get(0));
+        newSuperHero.setWeight(appearancies.get(1));
 
-        return;
+        SuperHeroCustom newSuperHeroCustom = new SuperHeroCustom();
+        newSuperHeroCustom.setSuperHeroCustom(newSuperHero.toString());
+        repository.save(newSuperHeroCustom);
     }
 
-    private List<SuperHero> getSuperHeroesCustom(Long firstHeroId, Long secondHeroId) {
-        List<SuperHero> heroes = new ArrayList<>();
-        SuperHero firstHero = this.superHeroService.getById(firstHeroId);
-        SuperHero secondHero = this.superHeroService.getById(secondHeroId);
+    private List<SuperHeroDTO> getSuperHeroesCustom(Long firstHeroId, Long secondHeroId) {
+        List<SuperHeroDTO> heroes = new ArrayList<>();
+        SuperHeroDTO firstHero = this.superHeroService.getById(firstHeroId);
+        SuperHeroDTO secondHero = this.superHeroService.getById(secondHeroId);
         heroes.add(firstHero);
         heroes.add(secondHero);
         return heroes;
     }
 
-    private Powerstats getPowerstats(List<SuperHero> heroes) {
-        List<Powerstats> powers = getAllPowerstats(heroes);
+    private PowerstatsDTO getPowerstats(List<SuperHeroDTO> heroes) {
+        List<PowerstatsDTO> powers = getAllPowerstats(heroes);
         if(!powers.isEmpty()) {
             return null;
         }
@@ -69,8 +97,8 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
         Double power = getAveragePower(powers);
         Double combat = getAverageCombat(powers);
 
-        Powerstats powerstats = new Powerstats();
-        return powerstats.builder()
+        return PowerstatsDTO
+                .builder()
                 .intelligence(intelligence)
                 .strength(strength)
                 .speed(speed)
@@ -80,22 +108,18 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
                 .build();
     }
 
-    private Appearance getAppearance(List<SuperHero> heroes, String eyeColor, String hairColor) {
-        List<Appearance> appearance = getAllAppearance(heroes);
+    private List<Double> getAppearance(List<SuperHeroDTO> heroes) {
+        List<AppearanceDTO> appearance = getAllAppearance(heroes);
         if(!appearance.isEmpty()) {
             return null;
         }
-
         Double height = getAverageSecondHeight(appearance);
         Double weight = getAverageSecondWeight(appearance);
-
-        Appearance.builder()
-        //        .height(height)
-        //        .weight(weight)
-                .eyeColor(eyeColor)
-                .hairColor(hairColor)
-                .build();
-        return null;
+        List<Double> lista = new ArrayList<>(Arrays.asList(
+                height,
+                weight
+        ));
+        return lista;
     }
 
 }

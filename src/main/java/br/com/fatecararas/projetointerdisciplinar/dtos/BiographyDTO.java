@@ -1,11 +1,11 @@
-package br.com.fatecararas.projetointerdisciplinar.domain.entities;
+package br.com.fatecararas.projetointerdisciplinar.dtos;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class Biography {
+public class BiographyDTO {
 
     private String fullName;
     private String alterEgos;

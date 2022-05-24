@@ -1,4 +1,4 @@
-package br.com.fatecararas.projetointerdisciplinar.domain.entities;
+package br.com.fatecararas.projetointerdisciplinar.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Appearance {
+public class AppearanceDTO {
 
     private String gender;
     private String race;
@@ -21,14 +21,14 @@ public class Appearance {
     private String eyeColor;
     private String hairColor;
 
-    public static List<Appearance> getAllAppearance(List<SuperHero> heroes) {
+    public static List<AppearanceDTO> getAllAppearance(List<SuperHeroDTO> heroes) {
         return heroes
                 .stream()
                 .map(hero -> hero.getAppearance())
                 .collect(Collectors.toList());
     }
 
-    public static Double getAverageSecondHeight(List<Appearance> appearances) {
+    public static Double getAverageSecondHeight(List<AppearanceDTO> appearances) {
         return appearances
                 .stream()
                 .map(hero -> hero.getHeight())
@@ -43,7 +43,7 @@ public class Appearance {
                 .getAsDouble();
     }
 
-    public static Double getAverageSecondWeight(List<Appearance> appearances) {
+    public static Double getAverageSecondWeight(List<AppearanceDTO> appearances) {
         return appearances
                 .stream()
                 .map(hero -> hero.getWeight())

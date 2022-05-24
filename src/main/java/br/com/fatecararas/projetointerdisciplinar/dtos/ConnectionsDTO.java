@@ -1,9 +1,9 @@
-package br.com.fatecararas.projetointerdisciplinar.domain.entities;
+package br.com.fatecararas.projetointerdisciplinar.dtos;
 
 import lombok.Data;
 
 @Data
-public class Connections {
+public class ConnectionsDTO {
 
     private String groupAffiliation;
     private String relatives;

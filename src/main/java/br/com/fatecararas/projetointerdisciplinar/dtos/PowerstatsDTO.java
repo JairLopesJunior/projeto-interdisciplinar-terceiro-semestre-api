@@ -1,4 +1,4 @@
-package br.com.fatecararas.projetointerdisciplinar.domain.entities;
+package br.com.fatecararas.projetointerdisciplinar.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Powerstats {
+public class PowerstatsDTO {
 
     private Double intelligence;
     private Double strength;
@@ -21,14 +21,14 @@ public class Powerstats {
     private Double power;
     private Double combat;
 
-    public static List<Powerstats> getAllPowerstats(List<SuperHero> heroes) {
+    public static List<PowerstatsDTO> getAllPowerstats(List<SuperHeroDTO> heroes) {
         return heroes
                 .stream()
                 .map(hero -> hero.getPowerstats())
                 .collect(Collectors.toList());
     }
 
-    public static Double getAverageIntelligence(List<Powerstats> powers) {
+    public static Double getAverageIntelligence(List<PowerstatsDTO> powers) {
         return powers
                 .stream()
                 .map(power -> power.getIntelligence())
@@ -37,7 +37,7 @@ public class Powerstats {
                 .getAsDouble();
     }
 
-    public static Double getAverageStrength(List<Powerstats> powers) {
+    public static Double getAverageStrength(List<PowerstatsDTO> powers) {
         return powers
                 .stream()
                 .map(power -> power.getStrength())
@@ -46,7 +46,7 @@ public class Powerstats {
                 .getAsDouble();
     }
 
-    public static Double getAverageSpeed(List<Powerstats> powers) {
+    public static Double getAverageSpeed(List<PowerstatsDTO> powers) {
         return powers
                 .stream()
                 .map(power -> power.getSpeed())
@@ -55,7 +55,7 @@ public class Powerstats {
                 .getAsDouble();
     }
 
-    public static Double getAverageDurability(List<Powerstats> powers) {
+    public static Double getAverageDurability(List<PowerstatsDTO> powers) {
         return powers
                 .stream()
                 .map(power -> power.getDurability())
@@ -64,7 +64,7 @@ public class Powerstats {
                 .getAsDouble();
     }
 
-    public static Double getAveragePower(List<Powerstats> powers) {
+    public static Double getAveragePower(List<PowerstatsDTO> powers) {
         return powers
                 .stream()
                 .map(power -> power.getPower())
@@ -73,7 +73,7 @@ public class Powerstats {
                 .getAsDouble();
     }
 
-    public static Double getAverageCombat(List<Powerstats> powers) {
+    public static Double getAverageCombat(List<PowerstatsDTO> powers) {
         return powers
                 .stream()
                 .map(power -> power.getCombat())

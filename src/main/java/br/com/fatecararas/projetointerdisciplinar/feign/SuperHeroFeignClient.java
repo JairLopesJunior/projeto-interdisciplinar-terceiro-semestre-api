@@ -1,6 +1,6 @@
 package br.com.fatecararas.projetointerdisciplinar.feign;
 
-import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHero;
+import br.com.fatecararas.projetointerdisciplinar.dtos.SuperHeroDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,5 +13,5 @@ import java.util.List;
 public interface SuperHeroFeignClient {
 
     @GetMapping(value = "/all.json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    List<SuperHero> getAll();
+    List<SuperHeroDTO> getAll();
 }

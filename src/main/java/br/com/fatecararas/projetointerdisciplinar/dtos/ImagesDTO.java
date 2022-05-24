@@ -1,9 +1,9 @@
-package br.com.fatecararas.projetointerdisciplinar.domain.entities;
+package br.com.fatecararas.projetointerdisciplinar.dtos;
 
 import lombok.Data;
 
 @Data
-public class Images {
+public class ImagesDTO {
 
     private String xs;
     private String sm;
