@@ -26,7 +26,7 @@ public class SuperHeroService {
     }
 
     public SuperHeroDTO getById(Long id) {
-        var superHeroes = this.allSuperHeroes.isEmpty() ? this.getAll() : this.allSuperHeroes;
+        var superHeroes = this.allSuperHeroes == null ? this.getAll() : this.allSuperHeroes;
         var superHeroFound = this.getSuperHeroById(superHeroes, id);
         return superHeroFound;
     }

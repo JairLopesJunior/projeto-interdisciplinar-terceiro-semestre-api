@@ -20,9 +20,9 @@ public class SuperHeroPersonalizadoController {
         this.service = service;
     }
 
-    @PostMapping
+    @PostMapping("/{idUser}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void save(@RequestBody @Valid SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO) {
+    public void save(@RequestBody @Valid SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO, @PathVariable Long idUser) {
         this.service.save(superHeroPersonalizadoDTO);
     }
 }

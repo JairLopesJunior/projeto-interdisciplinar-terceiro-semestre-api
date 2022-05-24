@@ -9,6 +9,7 @@ import br.com.fatecararas.projetointerdisciplinar.dtos.SuperHeroPersonalizadoDTO
 import br.com.fatecararas.projetointerdisciplinar.repositories.SuperHeroPersonalizadoRepository;
 import br.com.fatecararas.projetointerdisciplinar.services.SuperHeroPersonalizadoService;
 import br.com.fatecararas.projetointerdisciplinar.services.SuperHeroService;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,7 +73,8 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
         newSuperHero.setWeight(appearancies.get(1));
 
         SuperHeroCustom newSuperHeroCustom = new SuperHeroCustom();
-        newSuperHeroCustom.setSuperHeroCustom(newSuperHero.toString());
+        String newSuperHeroCustomjson = new Gson().toJson(newSuperHero);
+        newSuperHeroCustom.setSuperHeroCustom(newSuperHeroCustomjson);
         repository.save(newSuperHeroCustom);
     }
 
@@ -87,7 +89,7 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
 
     private PowerstatsDTO getPowerstats(List<SuperHeroDTO> heroes) {
         List<PowerstatsDTO> powers = getAllPowerstats(heroes);
-        if(!powers.isEmpty()) {
+        if(powers.isEmpty()) {
             return null;
         }
         Double intelligence = getAverageIntelligence(powers);
@@ -110,7 +112,7 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
 
     private List<Double> getAppearance(List<SuperHeroDTO> heroes) {
         List<AppearanceDTO> appearance = getAllAppearance(heroes);
-        if(!appearance.isEmpty()) {
+        if(appearance.isEmpty()) {
             return null;
         }
         Double height = getAverageSecondHeight(appearance);
