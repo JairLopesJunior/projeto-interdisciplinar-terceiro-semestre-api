@@ -42,6 +42,7 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
     }
 
     @Transactional
+    @Override
     public void save(SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO, Long idUser) {
         User foundUser = this.getUserById(idUser);
         Long firstHeroId = superHeroPersonalizadoDTO.getFirstHeroId();
@@ -57,6 +58,14 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
         newSuperHeroCustom.setSuperHeroCustom(newSuperHeroCustomjson);
         repository.save(newSuperHeroCustom);
     }
+
+    @Override
+    public SuperHeroCustom getById(Long idUser, Long idHero) {
+        this.getUserById(idUser);
+        return this.repository.findById(idHero)
+                .orElseThrow(() -> new UsernameNotFoundException("SuperHeroCustom not found in database."));
+    }
+
 
     private List<SuperHeroDTO> getSuperHeroesCustom(Long firstHeroId, Long secondHeroId) {
         List<SuperHeroDTO> heroes = new ArrayList<>();
@@ -139,7 +148,7 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
 
     private User getUserById(Long idUser) {
         return this.usuarioRepository.findById(idUser)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado na base de dados."));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found in database."));
     }
 
 }
