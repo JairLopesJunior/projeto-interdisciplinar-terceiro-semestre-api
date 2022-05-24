@@ -4,5 +4,5 @@ import br.com.fatecararas.projetointerdisciplinar.dtos.SuperHeroPersonalizadoDTO
 
 public interface SuperHeroPersonalizadoService {
 
-    void save(SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO);
+    void save(SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO, Long idUser);
 }

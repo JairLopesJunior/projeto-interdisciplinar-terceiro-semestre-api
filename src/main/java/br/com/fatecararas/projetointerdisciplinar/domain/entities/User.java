@@ -11,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,7 +25,7 @@ public class User {
     //@GeneratedValue(generator = "increment")
     //@GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @NotEmpty
     @NotNull
@@ -42,6 +43,9 @@ public class User {
     @Size(min = 8, message = "A senha deve conter no minímo {min} caracteres")
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<SuperHeroCustom> superHeroCustom;
 }
 
 

@@ -22,4 +22,7 @@ public class SuperHeroCustom {
 
     @Column(columnDefinition = "json")
     private String superHeroCustom;
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    private User user;
 }

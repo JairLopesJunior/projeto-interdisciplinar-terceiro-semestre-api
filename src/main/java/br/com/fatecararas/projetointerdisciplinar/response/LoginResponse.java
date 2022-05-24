@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LoginResponse {
 
-    private Integer id;
+    private Long id;
 }

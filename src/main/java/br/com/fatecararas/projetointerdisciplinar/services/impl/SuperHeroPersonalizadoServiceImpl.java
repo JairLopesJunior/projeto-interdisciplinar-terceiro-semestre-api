@@ -1,16 +1,20 @@
 package br.com.fatecararas.projetointerdisciplinar.services.impl;
 
+import br.com.fatecararas.projetointerdisciplinar.config.PasswordEncoderConfig;
 import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHero;
 import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHeroCustom;
+import br.com.fatecararas.projetointerdisciplinar.domain.entities.User;
 import br.com.fatecararas.projetointerdisciplinar.dtos.AppearanceDTO;
 import br.com.fatecararas.projetointerdisciplinar.dtos.PowerstatsDTO;
 import br.com.fatecararas.projetointerdisciplinar.dtos.SuperHeroDTO;
 import br.com.fatecararas.projetointerdisciplinar.dtos.SuperHeroPersonalizadoDTO;
 import br.com.fatecararas.projetointerdisciplinar.repositories.SuperHeroPersonalizadoRepository;
+import br.com.fatecararas.projetointerdisciplinar.repositories.UserRepository;
 import br.com.fatecararas.projetointerdisciplinar.services.SuperHeroPersonalizadoService;
 import br.com.fatecararas.projetointerdisciplinar.services.SuperHeroService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,51 +31,27 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
 
     private SuperHeroPersonalizadoRepository repository;
     private SuperHeroService superHeroService;
+    private UserRepository usuarioRepository;
 
     @Autowired
-    public SuperHeroPersonalizadoServiceImpl(SuperHeroService superHeroService, SuperHeroPersonalizadoRepository repository) {
+    public SuperHeroPersonalizadoServiceImpl(SuperHeroService superHeroService, SuperHeroPersonalizadoRepository repository,
+                                             UserRepository usuarioRepository) {
         this.superHeroService = superHeroService;
         this.repository = repository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Transactional
-    public void save(SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO) {
+    public void save(SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO, Long idUser) {
+        User foundUser = this.getUserById(idUser);
         Long firstHeroId = superHeroPersonalizadoDTO.getFirstHeroId();
         Long secondHeroId = superHeroPersonalizadoDTO.getSecondHeroId();
-        String fullName = superHeroPersonalizadoDTO.getFullName();
-        String nickName = superHeroPersonalizadoDTO.getNickName();
-        String eyeColor = superHeroPersonalizadoDTO.getEyeColor();
-        String hairColor = superHeroPersonalizadoDTO.getHairColor();
-        String profession = superHeroPersonalizadoDTO.getProfession();
-        String firstApparition = superHeroPersonalizadoDTO.getFirstApparition();
-        String publishedBy = superHeroPersonalizadoDTO.getPublishedBy();
-        String image = superHeroPersonalizadoDTO.getImage();
 
         List<SuperHeroDTO> heroes = getSuperHeroesCustom(firstHeroId, secondHeroId);
         PowerstatsDTO powerstats = this.getPowerstats(heroes);
         List<Double> appearancies = this.getAppearance(heroes);
 
-
-        SuperHero newSuperHero = new SuperHero();
-        newSuperHero.setFullName(fullName);
-        newSuperHero.setNickName(nickName);
-        newSuperHero.setEyeColor(eyeColor);
-        newSuperHero.setHairColor(hairColor);
-        newSuperHero.setProfession(profession);
-        newSuperHero.setFirstApparition(firstApparition);
-        newSuperHero.setPublishedBy(publishedBy);
-        newSuperHero.setImage(image);
-        newSuperHero.setFirstHeroId(firstHeroId);
-        newSuperHero.setSecondHeroId(secondHeroId);
-        newSuperHero.setIntelligence(powerstats.getIntelligence());
-        newSuperHero.setStrength(powerstats.getStrength());
-        newSuperHero.setSpeed(powerstats.getSpeed());
-        newSuperHero.setDurability(powerstats.getDurability());
-        newSuperHero.setPower(powerstats.getPower());
-        newSuperHero.setCombat(powerstats.getCombat());
-        newSuperHero.setHeight(appearancies.get(0));
-        newSuperHero.setWeight(appearancies.get(1));
-
+        SuperHero newSuperHero = this.createNewSuperHero(superHeroPersonalizadoDTO, powerstats, appearancies, firstHeroId, secondHeroId);
         SuperHeroCustom newSuperHeroCustom = new SuperHeroCustom();
         String newSuperHeroCustomjson = new Gson().toJson(newSuperHero);
         newSuperHeroCustom.setSuperHeroCustom(newSuperHeroCustomjson);
@@ -122,6 +102,44 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
                 weight
         ));
         return lista;
+    }
+
+    private SuperHero createNewSuperHero(SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO, PowerstatsDTO powerstats,
+                                         List<Double> appearancies, Long firstHeroId, Long secondHeroId) {
+        String fullName = superHeroPersonalizadoDTO.getFullName();
+        String nickName = superHeroPersonalizadoDTO.getNickName();
+        String eyeColor = superHeroPersonalizadoDTO.getEyeColor();
+        String hairColor = superHeroPersonalizadoDTO.getHairColor();
+        String profession = superHeroPersonalizadoDTO.getProfession();
+        String firstApparition = superHeroPersonalizadoDTO.getFirstApparition();
+        String publishedBy = superHeroPersonalizadoDTO.getPublishedBy();
+        String image = superHeroPersonalizadoDTO.getImage();
+
+        SuperHero newSuperHero = new SuperHero();
+        newSuperHero.setFullName(fullName);
+        newSuperHero.setNickName(nickName);
+        newSuperHero.setEyeColor(eyeColor);
+        newSuperHero.setHairColor(hairColor);
+        newSuperHero.setProfession(profession);
+        newSuperHero.setFirstApparition(firstApparition);
+        newSuperHero.setPublishedBy(publishedBy);
+        newSuperHero.setImage(image);
+        newSuperHero.setFirstHeroId(firstHeroId);
+        newSuperHero.setSecondHeroId(secondHeroId);
+        newSuperHero.setIntelligence(powerstats.getIntelligence());
+        newSuperHero.setStrength(powerstats.getStrength());
+        newSuperHero.setSpeed(powerstats.getSpeed());
+        newSuperHero.setDurability(powerstats.getDurability());
+        newSuperHero.setPower(powerstats.getPower());
+        newSuperHero.setCombat(powerstats.getCombat());
+        newSuperHero.setHeight(appearancies.get(0));
+        newSuperHero.setWeight(appearancies.get(1));
+        return newSuperHero;
+    }
+
+    private User getUserById(Long idUser) {
+        return this.usuarioRepository.findById(idUser)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado na base de dados."));
     }
 
 }

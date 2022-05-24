@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserDetailsService {
         User foundUser = usuarioRepository.findByEmail(email)
                         .orElseThrow(() -> new IllegalArgumentException("E-mail incorreto."));
         String userPasswordFound = foundUser.getPassword();
-        Integer userId = foundUser.getId();
+        Long userId = foundUser.getId();
         validPassword(userPasswordFound, password);
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setId(userId);
