@@ -60,10 +60,17 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
     }
 
     @Override
-    public SuperHeroCustom getById(Long idUser, Long idHero) {
+    public SuperHeroPersonalizadoDTO getById(Long idUser, Long idHero) {
         this.getUserById(idUser);
-        return this.repository.findById(idHero)
+        SuperHeroCustom superHeroCustomFound = this.repository.findById(idHero)
                 .orElseThrow(() -> new UsernameNotFoundException("SuperHeroCustom not found in database."));
+        return transformJsonToObject(superHeroCustomFound);
+    }
+
+    private SuperHeroPersonalizadoDTO transformJsonToObject(SuperHeroCustom superHeroCustomFound) {
+        Gson gson = new Gson();
+        SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO = gson.fromJson(superHeroCustomFound.getSuperHeroCustom(), SuperHeroPersonalizadoDTO.class);
+        return superHeroPersonalizadoDTO;
     }
 
 

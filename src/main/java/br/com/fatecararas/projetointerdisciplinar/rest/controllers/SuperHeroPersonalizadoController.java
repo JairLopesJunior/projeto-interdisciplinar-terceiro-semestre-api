@@ -31,9 +31,6 @@ public class SuperHeroPersonalizadoController {
 
     @GetMapping("/{idUser}/superheroescustom/{id}")
     public SuperHeroPersonalizadoDTO getById(@PathVariable Long idUser, @PathVariable Long idHero) {
-        SuperHeroCustom superHeroCustom = this.service.getById(idUser, idHero);
-        Gson gson = new Gson();
-        SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO = gson.fromJson(superHeroCustom.getSuperHeroCustom(), SuperHeroPersonalizadoDTO.class);
-        return superHeroPersonalizadoDTO;
+        return this.service.getById(idUser, idHero);
     }
 }

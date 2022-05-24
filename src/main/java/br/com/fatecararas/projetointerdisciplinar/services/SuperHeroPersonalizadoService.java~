@@ -8,4 +8,5 @@ public interface SuperHeroPersonalizadoService {
     void save(SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO, Long idUser);
 
     SuperHeroPersonalizadoDTO getById(Long idUser, Long idHero);
+
 }
