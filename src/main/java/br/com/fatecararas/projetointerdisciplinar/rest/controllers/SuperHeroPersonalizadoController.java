@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -30,5 +31,10 @@ public class SuperHeroPersonalizadoController {
     @GetMapping("/{idUser}/superheroescustom/{idHero}")
     public SuperHero getById(@PathVariable Long idUser, @PathVariable Long idHero) {
         return this.service.getById(idUser, idHero);
+    }
+
+    @GetMapping("/idUser")
+    public List<SuperHero> getAll(@PathVariable Long idUser) {
+        return this.service.getAll(idUser);
     }
 }
