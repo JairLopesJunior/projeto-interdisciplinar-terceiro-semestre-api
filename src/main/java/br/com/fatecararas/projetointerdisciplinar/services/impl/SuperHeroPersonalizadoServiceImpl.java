@@ -1,6 +1,5 @@
 package br.com.fatecararas.projetointerdisciplinar.services.impl;
 
-import br.com.fatecararas.projetointerdisciplinar.config.PasswordEncoderConfig;
 import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHero;
 import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHeroCustom;
 import br.com.fatecararas.projetointerdisciplinar.domain.entities.User;
@@ -56,21 +55,24 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
         SuperHeroCustom newSuperHeroCustom = new SuperHeroCustom();
         String newSuperHeroCustomjson = new Gson().toJson(newSuperHero);
         newSuperHeroCustom.setSuperHeroCustom(newSuperHeroCustomjson);
+        newSuperHeroCustom.setUser(foundUser);
         repository.save(newSuperHeroCustom);
     }
 
     @Override
-    public SuperHeroPersonalizadoDTO getById(Long idUser, Long idHero) {
-        this.getUserById(idUser);
+    public SuperHero getById(Long idUser, Long idHero) {
+        User foundUser = this.getUserById(idUser);
+        List<SuperHeroCustom> superHeroesCustom = foundUser.getSuperHeroCustom();
+        this.verifyIdHeroExistsInTheFoundUser(superHeroesCustom, idHero);
         SuperHeroCustom superHeroCustomFound = this.repository.findById(idHero)
                 .orElseThrow(() -> new UsernameNotFoundException("SuperHeroCustom not found in database."));
         return transformJsonToObject(superHeroCustomFound);
     }
 
-    private SuperHeroPersonalizadoDTO transformJsonToObject(SuperHeroCustom superHeroCustomFound) {
+    private SuperHero transformJsonToObject(SuperHeroCustom superHeroCustomFound) {
         Gson gson = new Gson();
-        SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO = gson.fromJson(superHeroCustomFound.getSuperHeroCustom(), SuperHeroPersonalizadoDTO.class);
-        return superHeroPersonalizadoDTO;
+        SuperHero superHero = gson.fromJson(superHeroCustomFound.getSuperHeroCustom(), SuperHero.class);
+        return superHero;
     }
 
 
@@ -158,4 +160,13 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
                 .orElseThrow(() -> new UsernameNotFoundException("User not found in database."));
     }
 
+    private boolean verifyIdHeroExistsInTheFoundUser(List<SuperHeroCustom> superHeroesCustom, Long idHero) {
+        boolean hasIdHero = superHeroesCustom
+                .stream()
+                .anyMatch(hero -> hero.getId().equals(idHero));
+        if(!hasIdHero) {
+            throw new UsernameNotFoundException("User not has this custom super hero.");
+        }
+        return true;
+    }
 }
