@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static br.com.fatecararas.projetointerdisciplinar.dtos.AppearanceDTO.*;
 import static br.com.fatecararas.projetointerdisciplinar.dtos.PowerstatsDTO.*;
@@ -66,7 +67,15 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
         this.verifyIdHeroExistsInTheFoundUser(superHeroesCustom, idHero);
         SuperHeroCustom superHeroCustomFound = this.repository.findById(idHero)
                 .orElseThrow(() -> new UsernameNotFoundException("SuperHeroCustom not found in database."));
-        return transformJsonToObject(superHeroCustomFound);
+        SuperHero foundSuperHero =  transformJsonToObject(superHeroCustomFound);
+    }
+
+    @Override
+    public List<SuperHero> getAll(Long idUser) {
+        User foundUser = this.getUserById(idUser);
+        List<SuperHeroCustom> superHeroesCustom = foundUser.getSuperHeroCustom();
+        List<SuperHero> foundSuperHeroesCustom = getSuperHeroesCustom(superHeroesCustom);
+        return foundSuperHeroesCustom;
     }
 
     private SuperHero transformJsonToObject(SuperHeroCustom superHeroCustomFound) {
@@ -168,5 +177,13 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
             throw new UsernameNotFoundException("User not has this custom super hero.");
         }
         return true;
+    }
+
+    private List<SuperHero> getSuperHeroesCustom(List<SuperHeroCustom> superHeroesCustom) {
+        List<SuperHero> foundSuperHeroesCustom = superHeroesCustom
+                .stream()
+                .map(this::transformJsonToObject)
+                .collect(Collectors.toList());
+        return foundSuperHeroesCustom;
     }
 }
