@@ -45,7 +45,7 @@ public class UserController {
 
     private void validPassword(String password, String repeatPassword) {
         if(!password.equals(repeatPassword)) {
-            throw new IllegalArgumentException("As senhas estão divergentes.");
+            throw new IllegalArgumentException("The passwords are different.");
         }
     }
 }

@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserDetailsService {
 
     public LoginResponse login(String email, String password) {
         User foundUser = usuarioRepository.findByEmail(email)
-                        .orElseThrow(() -> new IllegalArgumentException("E-mail incorreto."));
+                        .orElseThrow(() -> new IllegalArgumentException("The email or password fields are incorrect."));
         String userPasswordFound = foundUser.getPassword();
         Long userId = foundUser.getId();
         validPassword(userPasswordFound, password);
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         var foundUser = usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado na base de dados."));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found in database."));
 
         return org.springframework.security.core.userdetails.User
                 .builder()
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserDetailsService {
 
     private void validPassword(String userPasswordFound, String password) {
         if(!passwordEncoderConfig.passwordEncoder().matches(password, userPasswordFound)) {
-            throw new IllegalArgumentException("Password incorreto.");
+            throw new IllegalArgumentException("The email or password fields are incorrect.");
         }
     }
 }
