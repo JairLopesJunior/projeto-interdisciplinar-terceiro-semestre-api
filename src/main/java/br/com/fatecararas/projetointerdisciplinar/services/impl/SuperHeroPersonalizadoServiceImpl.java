@@ -68,6 +68,7 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
         SuperHeroCustom superHeroCustomFound = this.repository.findById(idHero)
                 .orElseThrow(() -> new UsernameNotFoundException("SuperHeroCustom not found in database."));
         SuperHero foundSuperHero =  transformJsonToObject(superHeroCustomFound);
+        return foundSuperHero;
     }
 
     @Override
