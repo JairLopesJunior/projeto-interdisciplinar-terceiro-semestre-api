@@ -21,9 +21,9 @@ import java.util.List;
 public class User {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(generator = "increment")
+    //@GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "id")
     private Long id;
 
