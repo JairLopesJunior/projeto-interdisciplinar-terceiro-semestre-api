@@ -33,7 +33,7 @@ public class SuperHeroPersonalizadoController {
         return this.service.getById(idUser, idHero);
     }
 
-    @GetMapping("/idUser")
+    @GetMapping("/{idUser}")
     public List<SuperHero> getAll(@PathVariable Long idUser) {
         return this.service.getAll(idUser);
     }
