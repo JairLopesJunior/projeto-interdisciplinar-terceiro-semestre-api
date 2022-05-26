@@ -21,9 +21,9 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    //@GeneratedValue(generator = "increment")
-    //@GenericGenerator(name = "increment", strategy = "increment")
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "id")
     private Long id;
 
@@ -40,7 +40,7 @@ public class User {
 
     @NotEmpty
     @NotNull
-    @Size(min = 8, message = "A senha deve conter no minímo {min} caracteres")
+    @Size(min = 8, message = "Password must contain at least {min} characters.")
     @Column(nullable = false)
     private String password;
 
