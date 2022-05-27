@@ -2,7 +2,6 @@ package br.com.fatecararas.projetointerdisciplinar.domain.entities;
 
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
@@ -27,6 +26,6 @@ public class SuperHeroCustom {
     private String superHeroCustom;
 
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "id_User")
+//    @JoinColumn(name = "id_User")
     private User user;
 }
