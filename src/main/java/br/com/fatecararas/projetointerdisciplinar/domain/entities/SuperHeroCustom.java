@@ -3,6 +3,7 @@ package br.com.fatecararas.projetointerdisciplinar.domain.entities;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class SuperHeroCustom {
     @Column(name = "id")
     private Long id;
 
+    @Type(type = "jsonb")
     @Column(columnDefinition = "json")
     private String superHeroCustom;
 
