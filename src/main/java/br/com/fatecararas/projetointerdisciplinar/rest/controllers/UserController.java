@@ -1,6 +1,6 @@
 package br.com.fatecararas.projetointerdisciplinar.rest.controllers;
 
-import br.com.fatecararas.projetointerdisciplinar.domain.entities.User;
+import br.com.fatecararas.projetointerdisciplinar.domain.entities.UserEntity;
 import br.com.fatecararas.projetointerdisciplinar.dtos.LoginDTO;
 import br.com.fatecararas.projetointerdisciplinar.dtos.UserDTO;
 import br.com.fatecararas.projetointerdisciplinar.response.LoginResponse;
@@ -28,7 +28,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public User save(@RequestBody @Valid UserDTO usuarioDTO) {
+    public UserEntity save(@RequestBody @Valid UserDTO usuarioDTO) {
         this.validPassword(usuarioDTO.getPassword(), usuarioDTO.getRepeatPassword());
         String encryptedPassword = passwordEncoder.encode(usuarioDTO.getPassword());
         usuarioDTO.setPassword(encryptedPassword);

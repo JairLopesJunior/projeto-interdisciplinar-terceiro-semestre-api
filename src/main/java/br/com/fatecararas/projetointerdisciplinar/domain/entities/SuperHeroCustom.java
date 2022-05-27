@@ -17,9 +17,9 @@ import javax.persistence.*;
 public class SuperHeroCustom {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    //@GeneratedValue(generator = "increment")
-    //@GenericGenerator(name = "increment", strategy = "increment")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "id")
     private Long id;
 
@@ -28,5 +28,5 @@ public class SuperHeroCustom {
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "id_User")
-    private User user;
+    private UserEntity user;
 }

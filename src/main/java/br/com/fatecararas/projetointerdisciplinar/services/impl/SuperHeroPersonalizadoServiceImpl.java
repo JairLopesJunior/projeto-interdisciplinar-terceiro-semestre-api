@@ -2,7 +2,7 @@ package br.com.fatecararas.projetointerdisciplinar.services.impl;
 
 import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHero;
 import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHeroCustom;
-import br.com.fatecararas.projetointerdisciplinar.domain.entities.User;
+import br.com.fatecararas.projetointerdisciplinar.domain.entities.UserEntity;
 import br.com.fatecararas.projetointerdisciplinar.dtos.AppearanceDTO;
 import br.com.fatecararas.projetointerdisciplinar.dtos.PowerstatsDTO;
 import br.com.fatecararas.projetointerdisciplinar.dtos.SuperHeroDTO;
@@ -44,7 +44,7 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
     @Transactional
     @Override
     public void save(SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO, Long idUser) {
-        User foundUser = this.getUserById(idUser);
+        UserEntity foundUser = this.getUserById(idUser);
         Long firstHeroId = superHeroPersonalizadoDTO.getFirstHeroId();
         Long secondHeroId = superHeroPersonalizadoDTO.getSecondHeroId();
 
@@ -62,7 +62,7 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
 
     @Override
     public SuperHero getById(Long idUser, Long idHero) {
-        User foundUser = this.getUserById(idUser);
+        UserEntity foundUser = this.getUserById(idUser);
         List<SuperHeroCustom> superHeroesCustom = foundUser.getSuperHeroCustom();
         this.verifyIdHeroExistsInTheFoundUser(superHeroesCustom, idHero);
         SuperHeroCustom superHeroCustomFound = this.repository.findById(idHero)
@@ -73,7 +73,7 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
 
     @Override
     public List<SuperHero> getAll(Long idUser) {
-        User foundUser = this.getUserById(idUser);
+        UserEntity foundUser = this.getUserById(idUser);
         List<SuperHeroCustom> superHeroesCustom = foundUser.getSuperHeroCustom();
         List<SuperHero> foundSuperHeroesCustom = getSuperHeroesCustom(superHeroesCustom);
         return foundSuperHeroesCustom;
@@ -165,7 +165,7 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
         return newSuperHero;
     }
 
-    private User getUserById(Long idUser) {
+    private UserEntity getUserById(Long idUser) {
         return this.usuarioRepository.findById(idUser)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found in database."));
     }

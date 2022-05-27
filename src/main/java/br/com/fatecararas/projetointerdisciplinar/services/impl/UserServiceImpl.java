@@ -1,7 +1,7 @@
 package br.com.fatecararas.projetointerdisciplinar.services.impl;
 
 import br.com.fatecararas.projetointerdisciplinar.config.PasswordEncoderConfig;
-import br.com.fatecararas.projetointerdisciplinar.domain.entities.User;
+import br.com.fatecararas.projetointerdisciplinar.domain.entities.UserEntity;
 import br.com.fatecararas.projetointerdisciplinar.dtos.UserDTO;
 import br.com.fatecararas.projetointerdisciplinar.repositories.UserRepository;
 import br.com.fatecararas.projetointerdisciplinar.response.LoginResponse;
@@ -26,8 +26,8 @@ public class UserServiceImpl implements UserDetailsService {
     }
 
     @Transactional
-    public User save(UserDTO usuarioDTO) {
-        User usuario = new User();
+    public UserEntity save(UserDTO usuarioDTO) {
+        UserEntity usuario = new UserEntity();
         usuario.setName(usuarioDTO.getName());
         usuario.setEmail(usuarioDTO.getEmail());
         usuario.setPassword(usuarioDTO.getPassword());
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserDetailsService {
     }
 
     public LoginResponse login(String email, String password) {
-        User foundUser = usuarioRepository.findByEmail(email)
+        UserEntity foundUser = usuarioRepository.findByEmail(email)
                         .orElseThrow(() -> new IllegalArgumentException("The email or password fields are incorrect."));
         String userPasswordFound = foundUser.getPassword();
         Long userId = foundUser.getIdUser();
