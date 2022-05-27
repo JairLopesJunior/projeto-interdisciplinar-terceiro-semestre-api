@@ -2,7 +2,6 @@ package br.com.fatecararas.projetointerdisciplinar.domain.entities;
 
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
