@@ -17,9 +17,9 @@ import javax.persistence.*;
 public class SuperHeroCustom {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(generator = "increment")
+    //@GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "id")
     private Long id;
 
