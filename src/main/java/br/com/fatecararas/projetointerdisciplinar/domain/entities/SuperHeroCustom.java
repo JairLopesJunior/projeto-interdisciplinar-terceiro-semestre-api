@@ -27,5 +27,6 @@ public class SuperHeroCustom {
     private String superHeroCustom;
 
     @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "id_User")
     private User user;
 }
