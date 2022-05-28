@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -63,7 +65,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void loginIllegalArgumentException() {
+    void loginWithIncorrectEmail() {
         // Cenário
         String emailParam = null;
         String password = "123mudar";
@@ -125,7 +127,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void loadUserByUsername() {
+    void loadUserByUsernameWithIncorrectEmail() {
         // Cenário
         String emailParam = "cicrano@gmail.com";
 
@@ -137,6 +139,32 @@ public class UserServiceImplTest {
 
         // Validação
         assertThat(returnedException.getMessage(), is(equalTo("User not found in database.")));
+    }
+
+    @Test
+    void loadUserByUsername() {
+        // Cenário
+        String emailParam = "cicrano@gmail.com";
+
+        UserEntity createduser = new UserEntity();
+        createduser.setIdUser(1L);
+        createduser.setEmail("fulano@gmail.com");
+        createduser.setName("Fulano");
+        createduser.setPassword("$2a$10$Q/4tlp//2ZKZ5LvJhtu.vOleoY6bZOiStBkfScrgIBGbizHIJMdtC");
+
+        UserDetails user = User.builder()
+                .username(createduser.getEmail())
+                .password(createduser.getPassword())
+                .roles("ADMIN")
+                .build();
+
+        when(this.userRepository.findByEmail(emailParam)).thenReturn(Optional.of(createduser));
+
+        // Ação e Validação
+        UserDetails userDetails = userServiceImpl.loadUserByUsername(emailParam);
+
+        // Validação
+        assertThat(userDetails,is(equalTo(user)));
     }
 
 }
