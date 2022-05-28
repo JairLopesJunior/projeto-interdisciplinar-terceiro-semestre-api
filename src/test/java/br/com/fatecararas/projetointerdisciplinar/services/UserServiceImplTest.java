@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
@@ -102,6 +103,7 @@ public class UserServiceImplTest {
 
     @Test
     void login() {
+        // Cenário
         String emailParam = "cicrano@gmail.com";
         String password = "12345678";
 
@@ -114,12 +116,27 @@ public class UserServiceImplTest {
         when(this.passwordEncoderConfig.passwordEncoder()).thenReturn(new BCryptPasswordEncoder());
         when(this.userRepository.findByEmail(emailParam)).thenReturn(Optional.of(createduser));
 
+        // Ação
         LoginResponse loginResponse = userServiceImpl.login(emailParam, password);
 
+        // Validação
         assertThat(loginResponse, notNullValue());
         assertThat(loginResponse.getId(), is(equalTo(createduser.getIdUser())));
     }
 
+    @Test
+    void loadUserByUsername() {
+        // Cenário
+        String emailParam = "cicrano@gmail.com";
 
+        when(this.userRepository.findByEmail(emailParam)).thenReturn(Optional.empty());
+
+        // Ação e Validação
+        UsernameNotFoundException returnedException = assertThrows(UsernameNotFoundException.class,
+                () -> userServiceImpl.loadUserByUsername(emailParam));
+
+        // Validação
+        assertThat(returnedException.getMessage(), is(equalTo("User not found in database.")));
+    }
 
 }
