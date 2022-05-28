@@ -6,15 +6,15 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
 
 @Entity
 @Data
-@TypeDef(
-        name = "json",
-        typeClass = JsonBinaryType.class
-)
+@TypeDefs({
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class),
+})
 @Table(name = "super_hero_custom")
 public class SuperHeroCustom {
 
@@ -25,6 +25,7 @@ public class SuperHeroCustom {
     @Column(name = "id")
     private Long id;
 
+    @Type(type = "jsonb")
     @Column(columnDefinition = "json")
     private String superHeroCustom;
 
