@@ -1,0 +1,181 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PasswordEncoderConfig</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.fatecararas.projetointerdisciplinar.config</a>
+</div>
+
+<h1>Coverage Summary for Class: PasswordEncoderConfig (br.com.fatecararas.projetointerdisciplinar.config)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PasswordEncoderConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$$EnhancerBySpringCGLIB$$58a534f8</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$$EnhancerBySpringCGLIB$$7a934d98</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$$EnhancerBySpringCGLIB$$7a934d98$$FastClassBySpringCGLIB$$9e79dae6</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$$EnhancerBySpringCGLIB$$9c4ace40</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$$EnhancerBySpringCGLIB$$9c4ace40$$FastClassBySpringCGLIB$$d21e09c8</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$$FastClassBySpringCGLIB$$8d8ea186</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$MockitoMock$1647820737</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$MockitoMock$1647820737$auxiliary$bpAkTgee</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$MockitoMock$1647820737$auxiliary$gWAFSzz1</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$MockitoMock$1647820737$auxiliary$zAA1wWVa</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$MockitoMock$1740131504</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$MockitoMock$1740131504$auxiliary$4xrvLfe7</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$MockitoMock$1740131504$auxiliary$bIAj1SaC</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$MockitoMock$1740131504$auxiliary$xOLKk5l8</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$MockitoMock$412872336</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$MockitoMock$412872336$auxiliary$IcGH4dLB</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$MockitoMock$412872336$auxiliary$NtPNL8NU</td>
+  </tr>
+  <tr>
+    <td class="name">PasswordEncoderConfig$MockitoMock$412872336$auxiliary$QNI5tZtc</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package br.com.fatecararas.projetointerdisciplinar.config;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import org.springframework.context.annotation.Bean;
+<i class="no-highlight">4</i>&nbsp;import org.springframework.context.annotation.Configuration;
+<i class="no-highlight">5</i>&nbsp;import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+<i class="no-highlight">6</i>&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;@Configuration
+<b class="fc"><i class="no-highlight">9</i>&nbsp;public class PasswordEncoderConfig {</b>
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;    @Bean
+<i class="no-highlight">12</i>&nbsp;    public PasswordEncoder passwordEncoder() {
+<b class="fc"><i class="no-highlight">13</i>&nbsp;        return new BCryptPasswordEncoder();</b>
+<i class="no-highlight">14</i>&nbsp;    }
+<i class="no-highlight">15</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-05-28 00:15</div>
+</div>
+</body>
+</html>
