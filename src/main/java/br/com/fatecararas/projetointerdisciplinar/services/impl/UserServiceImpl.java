@@ -6,6 +6,7 @@ import br.com.fatecararas.projetointerdisciplinar.dtos.UserDTO;
 import br.com.fatecararas.projetointerdisciplinar.repositories.UserRepository;
 import br.com.fatecararas.projetointerdisciplinar.response.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,7 +40,7 @@ public class UserServiceImpl implements UserDetailsService {
                         .orElseThrow(() -> new IllegalArgumentException("The email or password fields are incorrect."));
         String userPasswordFound = foundUser.getPassword();
         Long userId = foundUser.getIdUser();
-        validPassword(userPasswordFound, password);
+        this.validPassword(password, userPasswordFound);
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setId(userId);
         return loginResponse;
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserDetailsService {
         var foundUser = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found in database."));
 
-        return org.springframework.security.core.userdetails.User
+        return User
                 .builder()
                 .username(foundUser.getEmail())
                 .password(foundUser.getPassword())
@@ -58,8 +59,8 @@ public class UserServiceImpl implements UserDetailsService {
                 .build();
     }
 
-    private void validPassword(String userPasswordFound, String password) {
-        if(!passwordEncoderConfig.passwordEncoder().matches(password, userPasswordFound)) {
+    private void validPassword(String password, String userPasswordFound) {
+        if(!this.passwordEncoderConfig.passwordEncoder().matches(password, userPasswordFound)) {
             throw new IllegalArgumentException("The email or password fields are incorrect.");
         }
     }
