@@ -25,4 +25,4 @@ A Definir...
 ## Acesso Rápido:
 - ### <a href="https://www.figma.com/proto/7n488wJsFhbXR79ue0zAke/Projeto-Interdisciplinar?node-id=0%3A1&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=45%3A2"> Protótipo </a>
 - ### <a href=""> Site (A definir) </a>
-- ### <a href="https://superheroo-api.herokuapp.com/api"> API </a>
+- ### <a href="https://superherou-api.herokuapp.com/api"> API </a>
