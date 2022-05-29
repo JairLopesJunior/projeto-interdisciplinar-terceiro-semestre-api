@@ -153,7 +153,7 @@ public class SuperHeroPersonalizadoServiceImplTest {
     }
 
     @Test
-    void getById() {
+    void getByIdWithUserWithoutIdSuperHeroCustom() {
         // Cenário
         Long idUser = 1L;
         Long idHero = 1L;
@@ -163,7 +163,7 @@ public class SuperHeroPersonalizadoServiceImplTest {
 
         SuperHeroCustom newSuperHeroCustom = new SuperHeroCustom();
         String newSuperHeroCustomjson = new Gson().toJson(superHero);
-        newSuperHeroCustom.setId(null);
+        newSuperHeroCustom.setId(2L);
         newSuperHeroCustom.setSuperHeroCustom(newSuperHeroCustomjson);
         newSuperHeroCustom.setUser(userEntity);
 
@@ -178,6 +178,28 @@ public class SuperHeroPersonalizadoServiceImplTest {
 
         // Validação
         assertThat(returnedException.getMessage(), is(equalTo("User not has this custom super hero.")));
+    }
+
+    @Test
+    void getById() {
+        // Cenário
+        Long idUser = 1L;
+        Long idHero = 1L;
+
+        SuperHero superHero = new SuperHero();
+        UserEntity userEntity = new UserEntity();
+
+        SuperHeroCustom newSuperHeroCustom = new SuperHeroCustom();
+        String newSuperHeroCustomjson = new Gson().toJson(superHero);
+        newSuperHeroCustom.setId(2L);
+        newSuperHeroCustom.setSuperHeroCustom(newSuperHeroCustomjson);
+        newSuperHeroCustom.setUser(userEntity);
+
+        userEntity.setIdUser(1L);
+        userEntity.setSuperHeroCustom(Arrays.asList(newSuperHeroCustom));
+
+        when(this.userRepository.findById(idUser)).thenReturn(Optional.of(userEntity));
+        when(this.userRepository.findById(idUser)).thenReturn(Optional.of(userEntity));
     }
 
     private SuperHeroDTO createSuperHero(PowerstatsDTO powerstatsDTO, AppearanceDTO appearanceDTO, Long idHero) {
