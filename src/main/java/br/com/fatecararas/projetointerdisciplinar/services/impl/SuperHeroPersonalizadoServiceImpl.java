@@ -43,7 +43,7 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
 
     @Transactional
     @Override
-    public void save(SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO, Long idUser) {
+    public SuperHero save(SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO, Long idUser) {
         UserEntity foundUser = this.getUserById(idUser);
         Long firstHeroId = superHeroPersonalizadoDTO.getFirstHeroId();
         Long secondHeroId = superHeroPersonalizadoDTO.getSecondHeroId();
@@ -53,13 +53,16 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
         List<Double> appearancies = this.getAppearance(heroes);
 
         SuperHero newSuperHero = this.createNewSuperHero(superHeroPersonalizadoDTO, powerstats, appearancies, firstHeroId, secondHeroId);
+
         SuperHeroCustom newSuperHeroCustom = new SuperHeroCustom();
-
-
         String newSuperHeroCustomjson = new Gson().toJson(newSuperHero);
         newSuperHeroCustom.setSuperHeroCustom(newSuperHeroCustomjson);
         newSuperHeroCustom.setUser(foundUser);
-        repository.save(newSuperHeroCustom);
+
+        SuperHeroCustom createdSuperHeroCustom = repository.save(newSuperHeroCustom);
+
+        SuperHero foundSuperHero = transformJsonToObject(createdSuperHeroCustom);
+        return foundSuperHero;
     }
 
     @Override
@@ -99,9 +102,6 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
 
     private PowerstatsDTO getPowerstats(List<SuperHeroDTO> heroes) {
         List<PowerstatsDTO> powers = getAllPowerstats(heroes);
-        if(powers.isEmpty()) {
-            return null;
-        }
         Double intelligence = getAverageIntelligence(powers);
         Double strength = getAverageStrength(powers);
         Double speed = getAverageSpeed(powers);
@@ -122,9 +122,6 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
 
     private List<Double> getAppearance(List<SuperHeroDTO> heroes) {
         List<AppearanceDTO> appearance = getAllAppearance(heroes);
-        if(appearance.isEmpty()) {
-            return null;
-        }
         Double height = getAverageSecondHeight(appearance);
         Double weight = getAverageSecondWeight(appearance);
         List<Double> lista = new ArrayList<>(Arrays.asList(

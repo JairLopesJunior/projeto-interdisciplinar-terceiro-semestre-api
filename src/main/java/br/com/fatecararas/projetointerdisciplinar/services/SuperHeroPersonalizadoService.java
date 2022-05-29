@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface SuperHeroPersonalizadoService {
 
-    void save(SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO, Long idUser);
+    SuperHero save(SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO, Long idUser);
 
     SuperHero getById(Long idUser, Long idHero);
 

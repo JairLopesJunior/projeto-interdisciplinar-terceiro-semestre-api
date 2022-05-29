@@ -1,8 +1,13 @@
 package br.com.fatecararas.projetointerdisciplinar.services;
 
-import br.com.fatecararas.projetointerdisciplinar.dtos.SuperHeroPersonalizadoDTO;
+import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHero;
+import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHeroCustom;
+import br.com.fatecararas.projetointerdisciplinar.domain.entities.UserEntity;
+import br.com.fatecararas.projetointerdisciplinar.dtos.*;
+import br.com.fatecararas.projetointerdisciplinar.repositories.SuperHeroPersonalizadoRepository;
 import br.com.fatecararas.projetointerdisciplinar.repositories.UserRepository;
 import br.com.fatecararas.projetointerdisciplinar.services.impl.SuperHeroPersonalizadoServiceImpl;
+import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,11 +17,11 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -25,7 +30,13 @@ import static org.mockito.Mockito.when;
 public class SuperHeroPersonalizadoServiceImplTest {
 
     @Mock
+    private SuperHeroService superHeroService;
+
+    @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private SuperHeroPersonalizadoRepository repository;
 
     @InjectMocks
     private SuperHeroPersonalizadoServiceImpl superHeroPersonalizadoService;
@@ -56,7 +67,7 @@ public class SuperHeroPersonalizadoServiceImplTest {
         SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO = new SuperHeroPersonalizadoDTO();
         superHeroPersonalizadoDTO.setFullName("Iron Man");
         superHeroPersonalizadoDTO.setNickName("Tony Stark");
-        superHeroPersonalizadoDTO.setEyeColor("Clack");
+        superHeroPersonalizadoDTO.setEyeColor("Black");
         superHeroPersonalizadoDTO.setHairColor("Black");
         superHeroPersonalizadoDTO.setProfession("VASP");
         superHeroPersonalizadoDTO.setFirstApparition("SLA");
@@ -64,11 +75,86 @@ public class SuperHeroPersonalizadoServiceImplTest {
         superHeroPersonalizadoDTO.setImage("imagem");
         superHeroPersonalizadoDTO.setFirstHeroId(1L);
         superHeroPersonalizadoDTO.setSecondHeroId(2L);
-
         Long idUser = 1L;
 
-        when().thenReturn();
+        Long idHero = 1L;
+        PowerstatsDTO powerstatsDTO = new PowerstatsDTO();
+        powerstatsDTO.setIntelligence(50.0);
+        powerstatsDTO.setStrength(60.0);
+        powerstatsDTO.setSpeed(70.0);
+        powerstatsDTO.setDurability(65.0);
+        powerstatsDTO.setPower(80.0);
+        powerstatsDTO.setCombat(60.0);
+
+        AppearanceDTO appearanceDTO = new AppearanceDTO();
+        appearanceDTO.setGender("Male");
+        appearanceDTO.setRace("Human");
+        appearanceDTO.setHeight(Arrays.asList("6'8", "203 cm"));
+        appearanceDTO.setWeight(Arrays.asList("980 lb", "441 kg"));
+        appearanceDTO.setEyeColor("Black");
+        appearanceDTO.setHairColor("Black");
+        SuperHeroDTO createdSuperHero = this.createSuperHero(powerstatsDTO, appearanceDTO, idHero);
+
+        Long idHeroTwo = 2L;
+        PowerstatsDTO powerstatsDTOTwo = new PowerstatsDTO();
+        powerstatsDTOTwo.setIntelligence(80.0);
+        powerstatsDTOTwo.setStrength(60.0);
+        powerstatsDTOTwo.setSpeed(30.0);
+        powerstatsDTOTwo.setDurability(25.0);
+        powerstatsDTOTwo.setPower(65.0);
+        powerstatsDTOTwo.setCombat(87.0);
+
+        AppearanceDTO appearanceDTOTwo = new AppearanceDTO();
+        appearanceDTOTwo.setGender("Male");
+        appearanceDTOTwo.setRace("Human");
+        appearanceDTOTwo.setHeight(Arrays.asList("6'8", "350 cm"));
+        appearanceDTOTwo.setWeight(Arrays.asList("980 lb", "586 kg"));
+        appearanceDTOTwo.setEyeColor("Black");
+        appearanceDTOTwo.setHairColor("Black");
+        SuperHeroDTO createdSuperHeroTwo = this.createSuperHero(powerstatsDTOTwo, appearanceDTOTwo, idHeroTwo);
+
+        UserEntity userEntity = new UserEntity();
+        userEntity.setIdUser(1L);
+
+        SuperHero superHero = new SuperHero();
+
+        SuperHeroCustom newSuperHeroCustom = new SuperHeroCustom();
+        String newSuperHeroCustomjson = new Gson().toJson(superHero);
+        newSuperHeroCustom.setSuperHeroCustom(newSuperHeroCustomjson);
+        newSuperHeroCustom.setUser(userEntity);
+
+        when(this.userRepository.findById(idUser)).thenReturn(Optional.of(userEntity));
+        when(this.superHeroService.getById(idHero)).thenReturn(createdSuperHero);
+        when(this.superHeroService.getById(idHeroTwo)).thenReturn(createdSuperHeroTwo);
+        when(this.repository.save(any())).thenReturn(newSuperHeroCustom);
 
         // Ação
+        SuperHero foundSuperHero = this.superHeroPersonalizadoService.save(superHeroPersonalizadoDTO, idUser);
+
+        // Validação
+        assertThat(foundSuperHero, notNullValue());
+        assertThat(foundSuperHero, is(equalTo(foundSuperHero)));
+    }
+
+    private SuperHeroDTO createSuperHero(PowerstatsDTO powerstatsDTO, AppearanceDTO appearanceDTO, Long idHero) {
+        BiographyDTO biographyDTO = new BiographyDTO();
+        biographyDTO.setFullName("Bruce Wayne");
+        biographyDTO.setAlterEgos("Sla");
+        biographyDTO.setAliases(Arrays.asList("teste"));
+        biographyDTO.setPlaceOfBirth("sla");
+        biographyDTO.setFirstAppearance("SLA");
+        biographyDTO.setPublisher("Marvel");
+        biographyDTO.setAlignment("sla");
+
+        SuperHeroDTO superHeroDTO = new SuperHeroDTO();
+        superHeroDTO.setId(idHero);
+        superHeroDTO.setName("Batman");
+        superHeroDTO.setPowerstats(powerstatsDTO);
+        superHeroDTO.setAppearance(appearanceDTO);
+        superHeroDTO.setBiography(biographyDTO);
+        superHeroDTO.setWork(null);
+        superHeroDTO.setConnections(null);
+        superHeroDTO.setImages(null);
+        return superHeroDTO;
     }
 }
