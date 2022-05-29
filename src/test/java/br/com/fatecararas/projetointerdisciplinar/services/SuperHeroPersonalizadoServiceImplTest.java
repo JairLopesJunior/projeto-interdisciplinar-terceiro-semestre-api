@@ -62,7 +62,7 @@ public class SuperHeroPersonalizadoServiceImplTest {
     }
 
     @Test
-    void saveWithUserNotFoundas() {
+    void save() {
         // Cenário
         SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO = new SuperHeroPersonalizadoDTO();
         superHeroPersonalizadoDTO.setFullName("Iron Man");
@@ -136,6 +136,50 @@ public class SuperHeroPersonalizadoServiceImplTest {
         assertThat(foundSuperHero, is(equalTo(foundSuperHero)));
     }
 
+    @Test
+    void getByIdWithUserNotFound() {
+        // Cenário
+        Long idUser = 1L;
+        Long idHero = 1L;
+
+        when(this.userRepository.findById(idUser)).thenReturn(Optional.empty());
+
+        // Ação e Validação
+        UsernameNotFoundException returnedException = assertThrows(UsernameNotFoundException.class,
+                () -> superHeroPersonalizadoService.getById(idUser, idHero));
+
+        // Validação
+        assertThat(returnedException.getMessage(), is(equalTo("User not found in database.")));
+    }
+
+    @Test
+    void getById() {
+        // Cenário
+        Long idUser = 1L;
+        Long idHero = 1L;
+
+        SuperHero superHero = new SuperHero();
+        UserEntity userEntity = new UserEntity();
+
+        SuperHeroCustom newSuperHeroCustom = new SuperHeroCustom();
+        String newSuperHeroCustomjson = new Gson().toJson(superHero);
+        newSuperHeroCustom.setId(null);
+        newSuperHeroCustom.setSuperHeroCustom(newSuperHeroCustomjson);
+        newSuperHeroCustom.setUser(userEntity);
+
+        userEntity.setIdUser(1L);
+        userEntity.setSuperHeroCustom(Arrays.asList(newSuperHeroCustom));
+
+        when(this.userRepository.findById(idUser)).thenReturn(Optional.of(userEntity));
+
+        // Ação e Validação
+        UsernameNotFoundException returnedException = assertThrows(UsernameNotFoundException.class,
+                () -> superHeroPersonalizadoService.getById(idUser, idHero));
+
+        // Validação
+        assertThat(returnedException.getMessage(), is(equalTo("User not has this custom super hero.")));
+    }
+
     private SuperHeroDTO createSuperHero(PowerstatsDTO powerstatsDTO, AppearanceDTO appearanceDTO, Long idHero) {
         BiographyDTO biographyDTO = new BiographyDTO();
         biographyDTO.setFullName("Bruce Wayne");
@@ -157,4 +201,6 @@ public class SuperHeroPersonalizadoServiceImplTest {
         superHeroDTO.setImages(null);
         return superHeroDTO;
     }
+
+
 }

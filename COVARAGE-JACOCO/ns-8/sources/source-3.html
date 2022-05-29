@@ -76,43 +76,44 @@ Current scope:     <a href="../../index.html">all classes</a>
 <div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package br.com.fatecararas.projetointerdisciplinar.rest.controllers;
 <i class="no-highlight">2</i>&nbsp;
 <i class="no-highlight">3</i>&nbsp;import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHero;
-<i class="no-highlight">4</i>&nbsp;import br.com.fatecararas.projetointerdisciplinar.dtos.SuperHeroPersonalizadoDTO;
-<i class="no-highlight">5</i>&nbsp;import br.com.fatecararas.projetointerdisciplinar.services.SuperHeroPersonalizadoService;
-<i class="no-highlight">6</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
-<i class="no-highlight">7</i>&nbsp;import org.springframework.http.HttpStatus;
-<i class="no-highlight">8</i>&nbsp;import org.springframework.web.bind.annotation.*;
-<i class="no-highlight">9</i>&nbsp;
-<i class="no-highlight">10</i>&nbsp;import javax.validation.Valid;
-<i class="no-highlight">11</i>&nbsp;import java.util.List;
-<i class="no-highlight">12</i>&nbsp;
-<i class="no-highlight">13</i>&nbsp;@CrossOrigin
-<i class="no-highlight">14</i>&nbsp;@RestController
-<i class="no-highlight">15</i>&nbsp;@RequestMapping(&quot;/api/users&quot;)
-<i class="no-highlight">16</i>&nbsp;public class SuperHeroPersonalizadoController {
-<i class="no-highlight">17</i>&nbsp;
-<i class="no-highlight">18</i>&nbsp;    private SuperHeroPersonalizadoService service;
-<i class="no-highlight">19</i>&nbsp;
-<i class="no-highlight">20</i>&nbsp;    @Autowired
-<b class="fc"><i class="no-highlight">21</i>&nbsp;    public SuperHeroPersonalizadoController(SuperHeroPersonalizadoService service) {</b>
-<b class="fc"><i class="no-highlight">22</i>&nbsp;        this.service = service;</b>
-<i class="no-highlight">23</i>&nbsp;    }
-<i class="no-highlight">24</i>&nbsp;
-<i class="no-highlight">25</i>&nbsp;    @PostMapping(&quot;/{idUser}/superheroescustom&quot;)
-<i class="no-highlight">26</i>&nbsp;    @ResponseStatus(HttpStatus.CREATED)
-<i class="no-highlight">27</i>&nbsp;    public void save(@RequestBody @Valid SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO, @PathVariable Long idUser) {
-<b class="nc"><i class="no-highlight">28</i>&nbsp;        this.service.save(superHeroPersonalizadoDTO, idUser);</b>
-<i class="no-highlight">29</i>&nbsp;    }
-<i class="no-highlight">30</i>&nbsp;
-<i class="no-highlight">31</i>&nbsp;    @GetMapping(&quot;/{idUser}/superheroescustom/{idHero}&quot;)
-<i class="no-highlight">32</i>&nbsp;    public SuperHero getById(@PathVariable Long idUser, @PathVariable Long idHero) {
-<b class="nc"><i class="no-highlight">33</i>&nbsp;        return this.service.getById(idUser, idHero);</b>
-<i class="no-highlight">34</i>&nbsp;    }
-<i class="no-highlight">35</i>&nbsp;
-<i class="no-highlight">36</i>&nbsp;    @GetMapping(&quot;/{idUser}&quot;)
-<i class="no-highlight">37</i>&nbsp;    public List&lt;SuperHero&gt; getAll(@PathVariable Long idUser) {
-<b class="nc"><i class="no-highlight">38</i>&nbsp;        return this.service.getAll(idUser);</b>
-<i class="no-highlight">39</i>&nbsp;    }
-<i class="no-highlight">40</i>&nbsp;}
+<i class="no-highlight">4</i>&nbsp;import br.com.fatecararas.projetointerdisciplinar.domain.entities.SuperHeroCustom;
+<i class="no-highlight">5</i>&nbsp;import br.com.fatecararas.projetointerdisciplinar.dtos.SuperHeroPersonalizadoDTO;
+<i class="no-highlight">6</i>&nbsp;import br.com.fatecararas.projetointerdisciplinar.services.SuperHeroPersonalizadoService;
+<i class="no-highlight">7</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i class="no-highlight">8</i>&nbsp;import org.springframework.http.HttpStatus;
+<i class="no-highlight">9</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;import javax.validation.Valid;
+<i class="no-highlight">12</i>&nbsp;import java.util.List;
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;@CrossOrigin
+<i class="no-highlight">15</i>&nbsp;@RestController
+<i class="no-highlight">16</i>&nbsp;@RequestMapping(&quot;/api/users&quot;)
+<i class="no-highlight">17</i>&nbsp;public class SuperHeroPersonalizadoController {
+<i class="no-highlight">18</i>&nbsp;
+<i class="no-highlight">19</i>&nbsp;    private SuperHeroPersonalizadoService service;
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;    @Autowired
+<b class="fc"><i class="no-highlight">22</i>&nbsp;    public SuperHeroPersonalizadoController(SuperHeroPersonalizadoService service) {</b>
+<b class="fc"><i class="no-highlight">23</i>&nbsp;        this.service = service;</b>
+<i class="no-highlight">24</i>&nbsp;    }
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;    @PostMapping(&quot;/{idUser}/superheroescustom&quot;)
+<i class="no-highlight">27</i>&nbsp;    @ResponseStatus(HttpStatus.CREATED)
+<i class="no-highlight">28</i>&nbsp;    public SuperHero save(@RequestBody @Valid SuperHeroPersonalizadoDTO superHeroPersonalizadoDTO, @PathVariable Long idUser) {
+<b class="nc"><i class="no-highlight">29</i>&nbsp;        return this.service.save(superHeroPersonalizadoDTO, idUser);</b>
+<i class="no-highlight">30</i>&nbsp;    }
+<i class="no-highlight">31</i>&nbsp;
+<i class="no-highlight">32</i>&nbsp;    @GetMapping(&quot;/{idUser}/superheroescustom/{idHero}&quot;)
+<i class="no-highlight">33</i>&nbsp;    public SuperHero getById(@PathVariable Long idUser, @PathVariable Long idHero) {
+<b class="nc"><i class="no-highlight">34</i>&nbsp;        return this.service.getById(idUser, idHero);</b>
+<i class="no-highlight">35</i>&nbsp;    }
+<i class="no-highlight">36</i>&nbsp;
+<i class="no-highlight">37</i>&nbsp;    @GetMapping(&quot;/{idUser}&quot;)
+<i class="no-highlight">38</i>&nbsp;    public List&lt;SuperHero&gt; getAll(@PathVariable Long idUser) {
+<b class="nc"><i class="no-highlight">39</i>&nbsp;        return this.service.getAll(idUser);</b>
+<i class="no-highlight">40</i>&nbsp;    }
+<i class="no-highlight">41</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -139,7 +140,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-05-28 17:42</div>
+    <div style="float:right;">generated on 2022-05-29 19:16</div>
 </div>
 </body>
 </html>
