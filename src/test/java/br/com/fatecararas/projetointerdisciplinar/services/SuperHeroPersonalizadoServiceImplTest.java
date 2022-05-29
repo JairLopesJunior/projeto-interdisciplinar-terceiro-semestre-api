@@ -133,7 +133,7 @@ public class SuperHeroPersonalizadoServiceImplTest {
 
         // Validação
         assertThat(foundSuperHero, notNullValue());
-        assertThat(foundSuperHero, is(equalTo(foundSuperHero)));
+        assertThat(foundSuperHero, is(equalTo(superHero)));
     }
 
     @Test
@@ -155,19 +155,19 @@ public class SuperHeroPersonalizadoServiceImplTest {
     @Test
     void getByIdWithUserWithoutIdSuperHeroCustom() {
         // Cenário
-        Long idUser = 1L;
-        Long idHero = 1L;
+        Long idUser = 2L;
+        Long idHero = 2L;
 
         SuperHero superHero = new SuperHero();
         UserEntity userEntity = new UserEntity();
 
         SuperHeroCustom newSuperHeroCustom = new SuperHeroCustom();
         String newSuperHeroCustomjson = new Gson().toJson(superHero);
-        newSuperHeroCustom.setId(2L);
+        newSuperHeroCustom.setId(3L);
         newSuperHeroCustom.setSuperHeroCustom(newSuperHeroCustomjson);
         newSuperHeroCustom.setUser(userEntity);
 
-        userEntity.setIdUser(1L);
+        userEntity.setIdUser(2L);
         userEntity.setSuperHeroCustom(Arrays.asList(newSuperHeroCustom));
 
         when(this.userRepository.findById(idUser)).thenReturn(Optional.of(userEntity));
@@ -183,24 +183,32 @@ public class SuperHeroPersonalizadoServiceImplTest {
     @Test
     void getById() {
         // Cenário
-        Long idUser = 1L;
-        Long idHero = 1L;
+        Long idUser = 3L;
+        Long idHero = 3L;
 
         SuperHero superHero = new SuperHero();
         UserEntity userEntity = new UserEntity();
 
         SuperHeroCustom newSuperHeroCustom = new SuperHeroCustom();
         String newSuperHeroCustomjson = new Gson().toJson(superHero);
-        newSuperHeroCustom.setId(2L);
+        newSuperHeroCustom.setId(3L);
         newSuperHeroCustom.setSuperHeroCustom(newSuperHeroCustomjson);
         newSuperHeroCustom.setUser(userEntity);
 
-        userEntity.setIdUser(1L);
+        userEntity.setIdUser(3L);
         userEntity.setSuperHeroCustom(Arrays.asList(newSuperHeroCustom));
 
         when(this.userRepository.findById(idUser)).thenReturn(Optional.of(userEntity));
-        when(this.userRepository.findById(idUser)).thenReturn(Optional.of(userEntity));
+
+        // Ação
+        SuperHero foundSuperHero = superHeroPersonalizadoService.getById(idUser, idHero);
+
+        // Validação
+        assertThat(foundSuperHero, notNullValue());
+        assertThat(foundSuperHero, is(equalTo(superHero)));
     }
+
+    
 
     private SuperHeroDTO createSuperHero(PowerstatsDTO powerstatsDTO, AppearanceDTO appearanceDTO, Long idHero) {
         BiographyDTO biographyDTO = new BiographyDTO();

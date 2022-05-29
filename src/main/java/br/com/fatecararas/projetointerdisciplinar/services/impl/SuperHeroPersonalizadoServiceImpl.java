@@ -69,10 +69,8 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
     public SuperHero getById(Long idUser, Long idHero) {
         UserEntity foundUser = this.getUserById(idUser);
         List<SuperHeroCustom> superHeroesCustom = foundUser.getSuperHeroCustom();
-        this.verifyIdHeroExistsInTheFoundUser(superHeroesCustom, idHero);
-        SuperHeroCustom superHeroCustomFound = this.repository.findById(idHero)
-                .orElseThrow(() -> new UsernameNotFoundException("SuperHeroCustom not found in database."));
-        SuperHero foundSuperHero =  transformJsonToObject(superHeroCustomFound);
+        SuperHeroCustom superHeroCustomFound = this.verifyAndGetHeroIfExistsInTheFoundUser(superHeroesCustom, idHero);
+        SuperHero foundSuperHero = transformJsonToObject(superHeroCustomFound);
         return foundSuperHero;
     }
 
@@ -169,14 +167,12 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
                 .orElseThrow(() -> new UsernameNotFoundException("User not found in database."));
     }
 
-    private boolean verifyIdHeroExistsInTheFoundUser(List<SuperHeroCustom> superHeroesCustom, Long idHero) {
-        boolean hasIdHero = superHeroesCustom
+    private SuperHeroCustom verifyAndGetHeroIfExistsInTheFoundUser(List<SuperHeroCustom> superHeroesCustom, Long idHero) {
+        return superHeroesCustom
                 .stream()
-                .anyMatch(hero -> hero.getId().equals(idHero));
-        if(!hasIdHero) {
-            throw new UsernameNotFoundException("User not has this custom super hero.");
-        }
-        return true;
+                .filter(hero -> hero.getId().equals(idHero))
+                .findFirst()
+                .orElseThrow(() -> new UsernameNotFoundException("User not has this custom super hero."));
     }
 
     private List<SuperHero> getSuperHeroesCustom(List<SuperHeroCustom> superHeroesCustom) {
