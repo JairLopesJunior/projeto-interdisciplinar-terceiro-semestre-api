@@ -54,6 +54,8 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
 
         SuperHero newSuperHero = this.createNewSuperHero(superHeroPersonalizadoDTO, powerstats, appearancies, firstHeroId, secondHeroId);
         SuperHeroCustom newSuperHeroCustom = new SuperHeroCustom();
+
+
         String newSuperHeroCustomjson = new Gson().toJson(newSuperHero);
         newSuperHeroCustom.setSuperHeroCustom(newSuperHeroCustomjson);
         newSuperHeroCustom.setUser(foundUser);
