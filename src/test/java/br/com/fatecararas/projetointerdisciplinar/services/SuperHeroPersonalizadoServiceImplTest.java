@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -208,7 +209,49 @@ public class SuperHeroPersonalizadoServiceImplTest {
         assertThat(foundSuperHero, is(equalTo(superHero)));
     }
 
-    
+    @Test
+    void getAlldWithUserNotFound() {
+        // Cenário
+        Long idUser = 4L;
+        Long idHero = 4L;
+
+        when(this.userRepository.findById(idUser)).thenReturn(Optional.empty());
+
+        // Ação e Validação
+        UsernameNotFoundException returnedException = assertThrows(UsernameNotFoundException.class,
+                () -> superHeroPersonalizadoService.getAll(idUser));
+
+        // Validação
+        assertThat(returnedException.getMessage(), is(equalTo("User not found in database.")));
+    }
+
+    @Test
+    void getAll() {
+        // Cenário
+        Long idUser = 5L;
+        Long idHero = 5L;
+
+        SuperHero superHero = new SuperHero();
+        UserEntity userEntity = new UserEntity();
+
+        SuperHeroCustom newSuperHeroCustom = new SuperHeroCustom();
+        String newSuperHeroCustomjson = new Gson().toJson(superHero);
+        newSuperHeroCustom.setId(5L);
+        newSuperHeroCustom.setSuperHeroCustom(newSuperHeroCustomjson);
+        newSuperHeroCustom.setUser(userEntity);
+
+        userEntity.setIdUser(5L);
+        userEntity.setSuperHeroCustom(Arrays.asList(newSuperHeroCustom));
+
+        when(this.userRepository.findById(idUser)).thenReturn(Optional.of(userEntity));
+
+        // Ação e Validação
+        List<SuperHero> superHeroes =  superHeroPersonalizadoService.getAll(idUser);
+
+        // Validação
+        assertThat(superHeroes.get(0), notNullValue());
+        assertThat(superHeroes.get(0), is(equalTo(superHero)));
+    }
 
     private SuperHeroDTO createSuperHero(PowerstatsDTO powerstatsDTO, AppearanceDTO appearanceDTO, Long idHero) {
         BiographyDTO biographyDTO = new BiographyDTO();

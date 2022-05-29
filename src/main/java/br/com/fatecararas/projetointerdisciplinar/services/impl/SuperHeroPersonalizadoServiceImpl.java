@@ -78,8 +78,8 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
     public List<SuperHero> getAll(Long idUser) {
         UserEntity foundUser = this.getUserById(idUser);
         List<SuperHeroCustom> superHeroesCustom = foundUser.getSuperHeroCustom();
-        List<SuperHero> foundSuperHeroesCustom = getSuperHeroesCustom(superHeroesCustom);
-        return foundSuperHeroesCustom;
+        List<SuperHero> foundSuperHeroes = this.getSuperHeroes(superHeroesCustom);
+        return foundSuperHeroes;
     }
 
     private SuperHero transformJsonToObject(SuperHeroCustom superHeroCustomFound) {
@@ -175,7 +175,7 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
                 .orElseThrow(() -> new UsernameNotFoundException("User not has this custom super hero."));
     }
 
-    private List<SuperHero> getSuperHeroesCustom(List<SuperHeroCustom> superHeroesCustom) {
+    private List<SuperHero> getSuperHeroes(List<SuperHeroCustom> superHeroesCustom) {
         List<SuperHero> foundSuperHeroesCustom = superHeroesCustom
                 .stream()
                 .map(this::transformJsonToObject)
