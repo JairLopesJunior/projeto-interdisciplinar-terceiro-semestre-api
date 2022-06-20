@@ -85,6 +85,7 @@ public class SuperHeroPersonalizadoServiceImpl implements SuperHeroPersonalizado
     private SuperHero transformJsonToObject(SuperHeroCustom superHeroCustomFound) {
         Gson gson = new Gson();
         SuperHero superHero = gson.fromJson(superHeroCustomFound.getSuperHeroCustom(), SuperHero.class);
+        superHero.setId(superHeroCustomFound.getId());
         return superHero;
     }
 

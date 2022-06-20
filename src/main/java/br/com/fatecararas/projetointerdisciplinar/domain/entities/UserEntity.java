@@ -21,9 +21,9 @@ import java.util.List;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@GeneratedValue(generator = "increment")
-    //@GenericGenerator(name = "increment", strategy = "increment")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "id_User")
     private Long idUser;
 
@@ -44,7 +44,7 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<SuperHeroCustom> superHeroCustom;
 }
 

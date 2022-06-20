@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SuperHero {
 
+    private Long id;
+
     private String fullName;
 
     private String nickName;

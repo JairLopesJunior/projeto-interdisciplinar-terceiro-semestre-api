@@ -2,6 +2,7 @@ package br.com.fatecararas.projetointerdisciplinar.domain.entities;
 
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -17,9 +18,9 @@ import javax.persistence.*;
 public class SuperHeroCustom {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@GeneratedValue(generator = "increment")
-    //@GenericGenerator(name = "increment", strategy = "increment")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "id")
     private Long id;
 
